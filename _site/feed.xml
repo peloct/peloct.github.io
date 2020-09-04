@@ -6,9 +6,82 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 02 Sep 2020 20:06:44 +0900</pubDate>
-    <lastBuildDate>Wed, 02 Sep 2020 20:06:44 +0900</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2020 22:44:33 +0900</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2020 22:44:33 +0900</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>CMake 튜토리얼 관련 자료 모음</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.tuwlab.com/27234&quot;&gt;우선 쉬운 블로그&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c&quot;&gt;좀 더 전문적인? 블로그&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 04 Sep 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020-09/note2</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-09/note2</guid>
+        
+        
+        <category>study</category>
+        
+      </item>
+    
+      <item>
+        <title>(확률과 통계) 1. 확률 변수에 대해서 익힌 것</title>
+        <description>&lt;p&gt;이번 학기에 인공지능 과목을 듣는데,&lt;/p&gt;
+
+&lt;p&gt;교수님이 확률 통계에 대해서 모르면, F 를 받을 수 있다고 겁을 주었다.&lt;/p&gt;
+
+&lt;p&gt;나는 개인적으로 Calculus 와 Linear Algebra 에는 자신이 있었는데,&lt;/p&gt;
+
+&lt;p&gt;확률 통계에 대해서는 완전히 문외한이기 때문에 새롭게 익히기로 했다.&lt;/p&gt;
+
+&lt;p&gt;그리하여 원서를 읽기에는 시간이 오래 걸릴테니,&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&amp;amp;mallGb=KOR&amp;amp;barcode=9791160507829&amp;amp;orderClick=LEa&amp;amp;Kc=&quot;&gt;&lt;em&gt;프로그래머를 위한 확률과 통계&lt;/em&gt;&lt;/a&gt;라는 책을 읽기로 했다.&lt;/p&gt;
+
+&lt;p&gt;조금씩 읽으면서, 생각과는 달랐거나 기억할만한 내용들이 있다면 이곳에 노트를 할 것이다.&lt;/p&gt;
+
+&lt;h2 id=&quot;노트-본문&quot;&gt;노트 본문&lt;/h2&gt;
+
+&lt;p&gt;확률 변수에 대해서 새로운 시각을 얻었다.&lt;/p&gt;
+
+&lt;p&gt;확률 변수라는 것은 어떤 값인데 특정확률로 어떤 값을 갖는 값이라고만 생각하고 있었다.&lt;/p&gt;
+
+&lt;p&gt;하지만 확률 변수란 확률 공간이라는 곳에서 정의된 &lt;strong&gt;함수&lt;/strong&gt;이며,&lt;/p&gt;
+
+&lt;p&gt;이 확률 변수가 어떤 값을 가질 확률이라는 것은 다음과 같다.&lt;/p&gt;
+
+\[P(X = x) = P(Y)\]
+
+&lt;p&gt;여기서 \(Y\) 라는 것은&lt;/p&gt;
+
+\[Y = \left\{ y \in \Omega | X(y) = x \right\}\]
+
+&lt;p&gt;위와 같이 정의된다. 즉 확률 공간 \(\Omega\) 의 부분집합이다.&lt;/p&gt;
+
+&lt;p&gt;책에서는 &lt;em&gt;이 확률 공간이라는 것이 어떻게 생겼는가?&lt;/em&gt; 보단,&lt;/p&gt;
+
+&lt;p&gt;그 위에서 정의되는 확률 변수와 확률 함수 \(p\) 에 초점을 맞춰야한다고 했다.&lt;/p&gt;
+
+&lt;p&gt;우선 어떤 시스템이 가질 수 있는 모든 상태를 확률 공간이라고 생각하고,&lt;/p&gt;
+
+&lt;p&gt;확률 공간의 부분집합 \(X\)를 어떤 값에 매핑시키는 확률 함수 \(P\)가&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;알맞게(아마 공리에 맞게)&lt;/strong&gt; 정의되면, 확률 공간에서 정의되는 확률 변수에 대해&lt;/p&gt;
+
+&lt;p&gt;그 확률 변수가 어떤 값을 지니는가를 이 확률 함수를 통해 계산하는 것이 가능하다.&lt;/p&gt;
+
+&lt;p&gt;즉, 시스템이 어떤 상태를 가질 확률을 구하는 것이 가능하다.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 04 Sep 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020-09/note1</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-09/note1</guid>
+        
+        
+        <category>study</category>
+        
+      </item>
     
       <item>
         <title>Sample Post</title>
