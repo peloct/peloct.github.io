@@ -6,15 +6,18 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Sep 2020 22:56:03 +0900</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2020 22:56:03 +0900</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2020 23:03:50 +0900</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2020 23:03:50 +0900</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
         <title>CMake 튜토리얼 관련 자료 모음</title>
-        <description>&lt;ul&gt;
+        <description>&lt;p&gt;CMake 을 사용할 일이 생겼는데, 기본적인 것을 익히기에 좋은 사이트들의 목록을 정리하고자 한다.&lt;/p&gt;
+
+&lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.tuwlab.com/27234&quot;&gt;우선 쉬운 블로그&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c&quot;&gt;좀 더 전문적인? 블로그&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cgold.readthedocs.io/en/latest/overview.html&quot;&gt;위의 블로그에서 알려준 좋은 튜토리얼&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Fri, 04 Sep 2020 00:00:00 +0900</pubDate>
