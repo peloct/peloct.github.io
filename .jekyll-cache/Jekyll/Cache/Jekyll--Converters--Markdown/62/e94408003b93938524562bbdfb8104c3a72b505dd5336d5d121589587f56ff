@@ -1,0 +1,84 @@
+I"�<p>CMake 을 사용할 일이 생겼는데, 기본적인 것을 익히기에 좋은 사이트들의 목록을 정리하고자 한다.</p>
+
+<ul>
+  <li><a href="https://www.tuwlab.com/27234">우선 쉬운 블로그</a></li>
+  <li><a href="https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c">좀 더 전문적인? 블로그</a></li>
+  <li><a href="https://cgold.readthedocs.io/en/latest/overview.html">위의 블로그에서 알려준 좋은 튜토리얼</a></li>
+</ul>
+
+<hr />
+<h2 id="cmake_module_path--cmake-모듈-찾는-위치">CMAKE_MODULE_PATH : .cmake 모듈 찾는 위치</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set(CMAKE_MODULE_PATH 경로1 경로2 ...)
+</code></pre></div></div>
+
+<p>위와 같이 선언해두면, 이후에 include 를 통해서 cmake 모듈 (아마 .cmake 확장자를 가진 친구들)을 찾아 올 때, 해당 경로에서 우선적으로 찾아온다.</p>
+
+<hr />
+<h2 id="include_directories-와-target_include_directories--헤더파일-폴더">include_directories 와 target_include_directories : 헤더파일 폴더</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include_directories(x/y)
+target_include_directories(t x/y)
+</code></pre></div></div>
+
+<p>위 함수 둘 다 헤더 파일을 찾을 폴더를 명시하는 것인데,
+무슨 차이인가 궁금하여 검색해보았다.</p>
+
+<p><strong>include_directories(x/y)</strong> affects directory scope. All targets in this CMakeList, as well as those in all subdirectories added after the point of its call, will have the path x/y added to their include path.</p>
+
+<p><strong>target_include_directories(t x/y)</strong> has target scope—it adds x/y to the include path for target t.</p>
+
+<p>You want the former one if all of your targets use the include directories in question. You want the latter one if the path is specific to a target, or if you want finer control of the path’s visibility. The latter comes from the fact that target_include_directories() supports the PRIVATE, PUBLIC, and INTERFACE qualifiers</p>
+
+<p>요컨대 전역과 지역의 차이(?)인 듯.</p>
+
+<hr />
+<h2 id="link_directories--링크-시-라이브러리를-찾을-경로">link_directories : 링크 시 라이브러리를 찾을 경로</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>link_directories(&lt;경로&gt; &lt;경로&gt; ...)
+</code></pre></div></div>
+<p>위 함수는 링크를 진행할 때, 라이브러리를 찾을 경로를 명시한다.</p>
+
+<hr />
+<h2 id="add_subdirectory--다른-cmakeliststxt-실행">add_subdirectory : 다른 CMakeLists.txt 실행</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add_subdirectory(경로 [바이너리 경로])
+</code></pre></div></div>
+
+<p>위 함수는 해당 경로에서 CMakeLists.txt 를 찾아 실행하는 역할을 한다. 솔직히 아직까진 왜 CMakeLists.txt 와 .cmake 로 구분되는 CMake 모듈을 분리해놓았는지 잘 모르겠다. 분명 관리나 공유? 의 측면에서 이점이 있으니 그렇게 한 것이 아닐까.</p>
+
+<p>그리고 바이너리 경로라는 것을 지정할 수 있다. add_subdirectory 의 호출로 만들어진 결과물들을 저장하는 경로를 지정하는 것이다.</p>
+
+<hr />
+<h2 id="project-name_source_dir--자동으로-생성되는-변수도-있다">project name_SOURCE_DIR : 자동으로 생성되는 변수도 있다.</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include_directories(
+${MainLib_SOURCE_DIR}/../../dependencies/OgreSDK_vc10_v1-8-1/boost
+${MainLib_SOURCE_DIR}/../../dependencies/OgreSDK_vc10_v1-8-1/include/OGRE
+${MainLib_SOURCE_DIR}/../../dependencies/OgreSDK_vc10_v1-8-1/include/OIS
+${MainLib_SOURCE_DIR}/../../dependencies/fltk-1.1.10
+)
+</code></pre></div></div>
+
+<p>처음에 위의 코드를 보고 벙쪘다. 왜냐하면 MainLib_SOURCE_DIR 라는 변수는 그 어떤 파일에서도 set 해주지 않았기 때문이다. 하지만 CMake 에서</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;project name&gt;_SOURCE_DIR
+</code></pre></div></div>
+
+<p>라는 형식으로 세팅된 project 이름에 대해서 자동으로 변수를 생성해준다는 것을 알 수 있었다.</p>
+
+<hr />
+<h2 id="target_link_libraries-와-target_link_directories">target_link_libraries 와 target_link_directories</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>target_link_libraries(&lt;타겟&gt; 라이브러리경로1 ...)
+target_link_directories(&lt;타켓&gt; 라이브러리를 찾을 경로1 ...)
+</code></pre></div></div>
+
+<타겟>으로 명시되는 (무조건 add_exexutable() 혹은 add_library() 로 만들어진 것) 것을 구성할 때, 라이브러리를 찾는 경로나 라이브러리 자체를 명시하는 함수이다.
+
+---
+## .a vs .so
+
+프로그래머 실격이다. 이것이 무엇인지 모르겠더라.
+
+.a 는 정적 라이브러리
+
+.so 는 동적 라이브러리라고 한다.
+
+사용하는 운영체제가 ubuntu 인데, 윈도우와는 라이브러리 확장자가 다른 모양??
+</타겟>
+:ET

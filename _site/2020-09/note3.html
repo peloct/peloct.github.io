@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+  <title>VSCode 관련 이모저모 | JunWoo's Blog</title>
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="JunWoo Lee">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/assets/css/main.css" media="all">
+  <link rel="canonical" href="http://localhost:4000/2020-09/note3">
+  <link rel="alternate" type="application/rss+xml" title="JunWoo&#39;s Blog"
+    href="/feed.xml" />
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/assets/img/favicon.ico" type="image/x-icon" />
+
+  <!-- font -->
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,400i" rel="stylesheet">
+</head>
+
+<body>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <div class="content">
+
+    <header class="header">
+
+  <div class="header_content">
+    <label class="theme_changer">
+      <input theme_toggle type="checkbox">
+      <div class="button"></div>
+    </label>
+    <a class="header_circle" href="/">
+      <img src="/assets/img/cat.jpg" alt="catbook">
+    </a>
+    <span class="header_name">JunWoo Lee</span>
+    <span class="header_job">programmer</span>
+    <span class="header_mes"></span>
+
+    <nav class="nav">
+      
+      <ul class="nav_list">
+        <li class="nav_item">
+          <a href="/aboutme.html">about</a>
+        </li>
+      </ul>
+      
+      
+      
+      <ul class="nav_list">
+        <li class="nav_item">
+          <a href="/categories/writing" id="aa">writing
+            (1)</a>
+        </li>
+      </ul>
+      
+      
+      <ul class="nav_list">
+        <li class="nav_item">
+          <a href="/categories/study" id="aa">study
+            (4)</a>
+        </li>
+      </ul>
+      
+    </nav>
+  </div>
+
+</header>
+
+
+
+    <nav class="mobile_menu">
+
+  <ul class="nav_list">
+    
+    <li class="nav_item">
+      <a href="/aboutme.html">about</a>
+    </li>
+
+    
+    
+    
+
+    <li class="nav_item">
+      <a href="/categories/writing" id="aa">writing (1)</a>
+    </li>
+    
+    
+
+    <li class="nav_item">
+      <a href="/categories/study" id="aa">study (4)</a>
+    </li>
+    
+  </ul>
+
+</nav>
+    
+    <main class="main">
+
+    <div class="post">
+  <div>
+    
+    <p class="post_title">VSCode 관련 이모저모</p>
+    
+  </div>
+  <div class="post_data">
+    
+    <span class="post_date">Sep 6, 2020</span>
+    
+    
+    <span class="post_categories">
+      &raquo; 
+      <a href="/categories/study">study</a>
+    </span>
+    
+  </div>
+  <div class="post_content">
+    <p>VSCode 를 리눅스에서 사용할 편집기로 결정했다. 그런데 이거 좀 만만하지가 않다. VS에서 자주 쓰던 기능이나 숏컷들이 전부 다른 형태가 되었다. 그래서 VSCode 를 사용하면서 익힌 VSCode 관련 지식들을 이곳에 메모하고자 한다.</p>
+
+<hr />
+<h2 id="자주-쓰이는-숏컷">자주 쓰이는 숏컷</h2>
+
+<p>ctrl + p : 파일 이름으로 파일을 찾고 싶을 때, 요긴하게 쓰인다.</p>
+
+<p>ctrl + shift + I : 포맷팅 (개인적으로 자동으로 해주는게 좋았는데, 별도의 세팅 없이는 수동으로 해주어야 하는 모양이다.)</p>
+
+<p>ctrl + ` : 터미널을 열어준다. cmake 나 make, jekyll 커맨드 등을 실행할 때 편리하다.</p>
+
+<hr />
+<h2 id="좋은-extension-들">좋은 Extension 들</h2>
+
+<p>Lua Helper (yinfei) : 상당히 괜찮다. Formatting 과 Intellisense 등이 지원된다.</p>
+
+<hr />
+<h2 id="include-경로-설정">Include 경로 설정</h2>
+
+<p>교수님의 프로젝트를 열면, 모든 Include 밑에 빨간 줄이 그어지며 해당 헤더파일을 찾을 수 없다는 오류가 출력된다.</p>
+
+<p>요컨대 포함 경로를 세팅하라는 말이다.</p>
+
+<p>VSCode 에서는 C/C++ Extension 이라는 것을 설치해서 c++ 프로젝트를 구성하게 되는데, 이 C/C++ Extension 의 세팅에서 포함경로를 세팅해줄 필요가 있다.</p>
+
+<p>이는 c_cpp_properties.json 파일에 저장되는데,</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="dl">"</span><span class="s2">configurations</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Linux</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">includePath</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="dl">"</span><span class="s2">${workspaceFolder}/**</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/ois</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/libxml2</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/OGRE</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/OIS</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/lua5.1</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/eigen3</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/python2.7</span><span class="dl">"</span><span class="p">,</span>
+                <span class="dl">"</span><span class="s2">/usr/include/python3.6</span><span class="dl">"</span>
+            <span class="p">],</span>
+            <span class="dl">"</span><span class="s2">defines</span><span class="dl">"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="dl">"</span><span class="s2">compilerPath</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/usr/bin/gcc</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">cStandard</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">gnu11</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">cppStandard</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">gnu++14</span><span class="dl">"</span><span class="p">,</span>
+            <span class="dl">"</span><span class="s2">intelliSenseMode</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">gcc-x64</span><span class="dl">"</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>위와 같이 includePath 라는 프로퍼티에 사용하고자 하는 경로를 채워넣으면 된다.</p>
+
+<p>나는 CMake 파일을 직접 읽어서 add_include_directory 함수 밑의 경로를 전부 긁어다 넣었는데, 분명 더 쉬운 방법이 있지 않을까…</p>
+
+  </div>
+
+
+  
+  <div class="post_comment">
+
+    
+
+  </div>
+  
+
+</div>
+
+    </main>
+
+  </div>
+
+  <footer class="footer">
+  <div>
+    &copy; 2020 JunWoo Lee.
+    Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a>.
+    Get this theme
+    <a href="https://github.com/starry99/catbook" target="_blank">here</a>.
+  </div>
+</footer>
+
+  <!-- js from https://codepen.io/MrGrigri/pen/XQmWBv -->
+
+<script>
+    const themePreference = () => {
+        const hasLocalStorage = localStorage.getItem('theme');
+        let supports = false;
+        let theme = undefined;
+
+        if (hasLocalStorage === 'light') {
+            theme = 'light';
+        }
+        if (hasLocalStorage === 'dark') {
+            theme = 'dark';
+        }
+
+        if (window.matchMedia(`(prefers_color: dark)`).matches) {
+            theme = hasLocalStorage ? hasLocalStorage : 'dark';
+            supports = true;
+        };
+        if (window.matchMedia(`(prefers_color: light)`).matches) {
+            theme = hasLocalStorage ? hasLocalStorage : 'light';
+            supports = true;
+        };
+        if (window.matchMedia(`(prefers_color: no-preference)`).matches) {
+            theme = hasLocalStorage ? hasLocalStorage : 'none';
+            supports = true;
+        };
+
+        return {
+            supports,
+            theme
+        };
+    }
+
+    document.addEventListener('DOMContentLoaded', e => {
+        console.clear();
+
+        const userThemePreference = themePreference();
+        const toggle = document.querySelector('[theme_toggle]');
+        const html = document.documentElement;
+
+        const setTheme = () => {
+            switch (userThemePreference.theme) {
+                case 'dark':
+                    toggle.checked = true;
+                    html.classList.add('dark');
+                    html.classList.remove('light');
+                    break;
+                case 'light':
+                    toggle.checked = false;
+                    html.classList.remove('dark');
+                    html.classList.add('light');
+                    break;
+            }
+        }
+        setTheme();
+        toggle.addEventListener('click', e => {
+            if (toggle.checked) {
+                html.classList.add('dark');
+                html.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                localStorage.setItem('theme', 'light');
+            }
+        }, false);
+    }, false);
+</script>
+</body>
+</html>

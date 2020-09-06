@@ -4,7 +4,7 @@
 
 
 <head>
-  <title>Sample Post | JunWoo's Blog</title>
+  <title>(확률과 통계) 2. 결합 확률, 조건부 확률, 독립성 | JunWoo's Blog</title>
   
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="/assets/css/main.css" media="all">
-  <link rel="canonical" href="http://localhost:4000/2017-11/s2">
+  <link rel="canonical" href="http://localhost:4000/2020-09/note4">
   <link rel="alternate" type="application/rss+xml" title="JunWoo&#39;s Blog"
     href="/feed.xml" />
 
@@ -107,63 +107,50 @@
     <div class="post">
   <div>
     
-    <p class="post_title">Sample Post</p>
+    <p class="post_title">(확률과 통계) 2. 결합 확률, 조건부 확률, 독립성</p>
     
   </div>
   <div class="post_data">
     
-    <span class="post_date">Nov 1, 2017</span>
+    <span class="post_date">Sep 7, 2020</span>
     
     
     <span class="post_categories">
       &raquo; 
-      <a href="/categories/writing">writing</a>
+      <a href="/categories/study">study</a>
     </span>
     
   </div>
   <div class="post_content">
-    <p>This is a sample post.<br />
-<dfn info="You can add extra information">Hover</dfn> me.</p>
+    \[P(A, B)\]
 
-<h2 id="header">Header</h2>
+\[P(A | B)\]
 
-<h1 id="head-1-">Head 1: ‘#’</h1>
-<h2 id="head-2-">Head 2: ‘##’</h2>
-<h3 id="head-3-">Head 3: ‘###’</h3>
+\[P(A, B) = P(A)P(B)\]
 
-<h2 id="code-block">Code block</h2>
-<p>A Python Example:</p>
+<p>2장에서는 확률 변수 사이에 결합 확률과 조건부 확률, 독립성에 대해서 다룬다.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">quote</span><span class="p">():</span>
-    <span class="c1"># Socrates
-</span>    <span class="k">print</span><span class="p">(</span><span class="s">'The only true wisdom is in knowing you know nothing.'</span><span class="p">)</span>
-    
-</code></pre></div></div>
-<p>A HTML Example:</p>
+<p>확률 변수는 그 자체로 확률 공간 \(\Omega\) 상에서 서로 독자적인 확률 분포를 갖는다. 예를 들면</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;title&gt;</span>quote<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-    <span class="c">&lt;!-- Maya Angelou --&gt;</span>
-    <span class="nt">&lt;p&gt;</span>Try to be a rainbow in someone's cloud.<span class="nt">&lt;/p&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</code></pre></div></div>
+\[P(A = 0) = 0.1, P(A = 1) = 0.5, P(A = 2) = 0.4\]
 
-<p>A C Example:</p>
+<p>위와 같다.</p>
 
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
-</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="c1">// Confucius</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">"Everything has beauty, but not everyone sees it.</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<p>그런데 확률 변수들은 확률 공간을 Domain 으로 하는 함수들이라는 점에서, 서로 다른 두 확률 변수가 주어졌을 때, <strong>이 두 변수가 각자 특정 값을 취하는데 있어서 서로 상관관계, 혹은 연관성(Inclination ?)가 있는가?</strong> 라는 질문을 할 수 있다.</p>
+
+<p>예를 들면 이런 것이다.</p>
+
+<p>“A 변수가 2의 값을 가질 때면, B 변수가 5의 값을 갖는 경우가 많더라.”</p>
+
+<p>이러한 측면에서, 두 확률 변수 사이에 의존관계가 있는지 없는지(즉 독립성 여부 판단)를 파악하고,
+\(P(A|B)\) 와 같은 조건부 확률을 알았을 때,
+\(P(B|A)\) 와 같이 두 변수 사이에 생각할 수 있는 다른 확률을 계산하는 법을 익히는 것이 2장의 목적이었다.</p>
+
+<p>참고로, 다변수 상황에서의 확률 변수 독립성 판단은 다음과 같이 한다.</p>
+
+\[임의의 a, b, c, d 에 대해\]
+
+\[P(A = a, B = b, C = c, D = d) = P(A = a)P(B = b)P(C = c)P(D = d)\]
 
   </div>
 
