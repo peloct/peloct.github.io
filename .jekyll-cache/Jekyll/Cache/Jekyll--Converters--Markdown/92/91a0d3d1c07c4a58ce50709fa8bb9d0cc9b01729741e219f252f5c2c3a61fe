@@ -1,0 +1,57 @@
+I"�<h2 id="reinforcement-learning-과-supervised-learning-의-차이">Reinforcement Learning 과 Supervised Learning 의 차이</h2>
+
+<p>Reinforcement Learning (RL) 과 Supervised Learning 의 차이점은 RL 의 경우에는 지도 데이터가 없다는 점이다. Agent 가 스스로 어떤 결정을 내리고, 그것에 대해서 Reward 만을 받는 것으로 학습해 나간다.</p>
+
+<p>만약 목적함수 F 를 정의하고, 이것을 곧 Reward 로 세팅하게되면, 목적함수 F 를 Maximize 하는 액션들을 스스로 학습한다는 점에서, Optimization Problemt Solving 의 한 방법이라고 볼 수 있지 않을까 싶다.</p>
+
+<h2 id="용어-정리">용어 정리</h2>
+
+<h3 id="reward">Reward</h3>
+
+<p>“scalar feedback signal”</p>
+
+<p>t step 에 얻은 reward 를 \(R_t\) 라고 하면,</p>
+
+<p>Agent의 목적은 이렇게 얻어낸 reward 들의 총합을 최대화하는 것을 목적으로 한다.</p>
+
+<h3 id="reward-hypothesis">Reward Hypothesis</h3>
+
+<p>“모든 목적은 cumulative reward 를 극대화하는 것으로 표현될 수 있다.”</p>
+
+<p>요컨대 reward 가 어떤 것을 기준으로 계산되어 Agent 에게 알려지는가가 중요하다.</p>
+
+<h3 id="sequential-decision-making">Sequential Decision Making</h3>
+
+<p>RL은 미래의 Reward 를 최대화하는 행동들을 결정한다. Reward 가 delayed 될 수도 있다. 요컨대 Long-Term reward 를 극대화하는 행동들을 학습한다.</p>
+
+<h3 id="agent">Agent</h3>
+
+<p>뇌와 같은 것(학습자)</p>
+
+<h3 id="environment">Environment</h3>
+
+<p>뇌 외의 모든 것</p>
+
+<h3 id="action">Action</h3>
+
+<p>행동의 단위.</p>
+
+<p>Environment 는 Action을 받고, Reward 와 Observation(변화한 상황) 을 Agent 에게 알린다.
+Agent는 Observation 과 Reward 를 받고 다음 Action 을 결정한다.</p>
+
+<h3 id="history">History</h3>
+
+<p>observation, action, reward 의 나열(기록을 한다.)</p>
+
+\[H_t = O_1, R_1, A_1, ... , A_{t-1}, O_t, R_t\]
+
+<p>Agent 는 History 로부터 Action 을 정한다. Environment 는 History 로부터 Reward 와 Observation 을 정한다.</p>
+
+<h3 id="state">State</h3>
+
+<p>다음에 무슨일이 일어날지 결정할 때 쓰이는 정보.</p>
+
+\[S_t = f(H_t)\]
+
+<p>Envrionment State \(S_t^e\)</p>
+:ET

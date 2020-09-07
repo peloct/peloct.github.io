@@ -1,0 +1,151 @@
+I"�<h2 id="reinforcement-learning-과-supervised-learning-의-차이">Reinforcement Learning 과 Supervised Learning 의 차이</h2>
+
+<p>Reinforcement Learning (RL) 과 Supervised Learning 의 차이점은 RL 의 경우에는 지도 데이터가 없다는 점이다. Agent 가 스스로 어떤 결정을 내리고, 그것에 대해서 Reward 만을 받는 것으로 학습해 나간다.</p>
+
+<p>만약 목적함수 F 를 정의하고, 이것을 곧 Reward 로 세팅하게되면, 목적함수 F 를 Maximize 하는 액션들을 스스로 학습한다는 점에서, Optimization Problemt Solving 의 한 방법이라고 볼 수 있지 않을까 싶다.</p>
+
+<h2 id="용어-정리">용어 정리</h2>
+
+<h3 id="reward">Reward</h3>
+
+<p>“scalar feedback signal”</p>
+
+<p>t step 에 얻은 reward 를 \(R_t\) 라고 하면,</p>
+
+<p>Agent의 목적은 이렇게 얻어낸 reward 들의 총합을 최대화하는 것을 목적으로 한다.</p>
+
+<h3 id="reward-hypothesis">Reward Hypothesis</h3>
+
+<p>“모든 목적은 cumulative reward 를 극대화하는 것으로 표현될 수 있다.”</p>
+
+<p>요컨대 reward 가 어떤 것을 기준으로 계산되어 Agent 에게 알려지는가가 중요하다.</p>
+
+<h3 id="sequential-decision-making">Sequential Decision Making</h3>
+
+<p>RL은 미래의 Reward 를 최대화하는 행동들을 결정한다. Reward 가 delayed 될 수도 있다. 요컨대 Long-Term reward 를 극대화하는 행동들을 학습한다.</p>
+
+<h3 id="agent">Agent</h3>
+
+<p>뇌와 같은 것(학습자)</p>
+
+<h3 id="environment">Environment</h3>
+
+<p>뇌 외의 모든 것</p>
+
+<h3 id="action">Action</h3>
+
+<p>행동의 단위.</p>
+
+<p>Environment 는 Action을 받고, Reward 와 Observation(변화한 상황, 세상의 현재 모습을 의미?) 을 Agent 에게 알린다.
+Agent는 Observation 과 Reward 를 받고 다음 Action 을 결정한다.</p>
+
+<h3 id="history">History</h3>
+
+<p>observation, action, reward 의 나열(기록을 한다.)</p>
+
+\[H_t = O_1, R_1, A_1, ... , A_{t-1}, O_t, R_t\]
+
+<p>Agent 는 History 로부터 Action 을 정한다. Environment 는 History 로부터 Reward 와 Observation 을 정한다.</p>
+
+<h3 id="state">State</h3>
+
+<p>다음에 무슨일이 일어날지 결정할 때 쓰이는 정보. History 로부터 정제된 정보로, 그냥 평범하게 History 에서 무언가 Decision Making 을 하기 편리하게 요리조리 계산한 데이터 더미라고 보면 될 듯 하다.</p>
+
+\[S_t = f(H_t)\]
+
+<p>Envrionment State \(S_t^e\) 는 envirionment 가 다음 observation 과 reward 를 결정하는데 쓰이는 모든 정보들(보통 private)을 의미한다.</p>
+
+<p>Agent State \(S_t^a\) 는 다음 action 을 결정할 때 쓰이는 정보들이다. 따라서 state 를 어떻게 정의하느냐(3 step 동안 종이 울린 횟수 등)에 따라서 판단하는 방식이 바뀐다.</p>
+
+<h3 id="어떤-state-가-markov-하다">어떤 State 가 Markov 하다.</h3>
+
+<p>“새로운 state 가 바로 이전 step 의 state 에만 의존하여 결정된다.”</p>
+
+<p>요컨대 과거와는 독립적이고, 현재만이 중요하다.</p>
+
+<p>자동차를 운전한다고 했을 때, 어떤 목적지에 다다르기 위한 의사결정을 한다고 하자. 주변의 모든 사물과 차의 현재 위치, 속도 등을 알면 이전에 내가 어떻게 운전을 해왔는지는 중요하지 않고, 현재의 상태만 있으면 충분하다. 하지만 자동차의 속도 정보를 모른다고 하면, 이후의 state (내가 페달을 더 밟든 말든)는 현재 state 와 이전 history (내가 브레이크를 어느정도 밟아왔고, 페달은 어떻게 밟았는지 등)에 의존하게 된다.</p>
+
+<p>그런 의미에서 information state 혹은 Markov state 는 history 로부터 모든 유용한 정보를 전부 담은 state 를 말한다. state 는 Markov 해야 한다.</p>
+
+<h3 id="fully-observable-environment">Fully Observable Environment</h3>
+
+<p><strong>full observability</strong> 는 agent 가 environment state 를 바로 볼 수 있음을 말한다.</p>
+
+\[O_t = S_t^a = S_t^e\]
+
+<p>이 경우를 Markov decision process 라고 한다.</p>
+
+<p><strong>partial observability</strong> 는 agent 가 environment 를 간접적으로 관찰함을 말한다. (로봇의 카메라가 현재의 위치를 안 알려준다거나, 포커 플레이어 Agent 가 공개된 카드만을 본다거나)</p>
+
+<p>이 경우를 Partially observable Markov decision process 라고 한다.</p>
+
+<p>agent 는 이 경우 자기만의 독자적인 state 표현을 구성해야 한다.</p>
+
+<h2 id="agent-의-구성-요소">Agent 의 구성 요소</h2>
+
+<p>agent 는 policy, value function, model 의 구성 요소를 가질 수 있다. 하지만 3개 전부 다 가질 필요는 없다.</p>
+
+<h3 id="policy">policy</h3>
+
+<p>agent 의 행동을 규정하는 것. state 를 넣으면 action 을 반환한다.</p>
+
+<p>deterministic policy 는 state 하나에 하나의 action 을 매핑한다.</p>
+
+\[a = \pi (s)\]
+
+<p>stochastic policy 는 state 하나에 여러 액션의 확률을 준다.</p>
+
+\[\pi (a | s)\]
+
+<h3 id="value-function">value function</h3>
+
+<p>이후 future reward 의 총 합산을 예측해준다. 현재 state 가 좋은지 안 좋은지 등을 체크할 때도 쓰일 수 있다.</p>
+
+\[v_\pi (s) = E_\pi [ R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + ... | S_t = s]\]
+
+<p>위의 의미는 현재 상태가 \(s\) 이고, agent 가 policy \(\pi\) 를 따른다면, 미래에 얻을 총 Reward 의 기대값을 말한다. (polcy 가 deterministic 하다 할지라도, environment 가 확률적 요소를 가질 수 있기에, 쉽게 기대값을 제거할 수 있다거나 할 순 없다.)</p>
+
+<h3 id="model">Model</h3>
+
+<p>환경이 어떻게될 지 예측하는 것.</p>
+
+<p>action 을 수행했을 때, next state 를 예측하는 것과 next reward 를 예측하는 것이 있다.</p>
+
+\[P_{ss'}^a = P[S_{t+1} = s' | S_t = s, A_t = a]\]
+
+<p>위의 식에서 \(P_{ss'}^a\) 는 \(s\) 에서 \(a\) 를 했을 때, \(s'\) 가 될 확률을 의미한다.</p>
+
+\[R_s^a = E[R_{t+1} | S_t = s, A_t = a]\]
+
+<h2 id="agent-의-분류-방법">Agent 의 분류 방법</h2>
+
+<h3 id="value-based">Value Based</h3>
+
+<p>value function 만을 갖고 있다.</p>
+
+<h3 id="policy-based">Policy Based</h3>
+
+<p>policy 만을 갖고 있다.</p>
+
+<h3 id="actor-critic">Actor Critic</h3>
+
+<p>policy 와 value function 을 둘 다 갖고 있다.</p>
+
+<h3 id="model-free">Model Free</h3>
+
+<p>model 을 갖고 있지 않다.</p>
+
+<h3 id="model-based">Model Based</h3>
+
+<p>model 을 갖고 있다.</p>
+
+<h2 id="문제의-분류">문제의 분류</h2>
+
+<h3 id="learning">Learning</h3>
+
+<p>environment 가 처음에 알려지지 않는다. 하지만 environment 와 상호작용을 하면서 policy 를 개선해나간다.</p>
+
+<h3 id="planning">Planning</h3>
+
+<p>environment 의 모델이 알려져 있다. (reward 가 어떻게 되는지 알고, state transition 을 안다.) 그래서 agent 는 environment 와의 상호작용을 안해도, environment 의 모델을 통해서 여러 상태를 탐색하는 것이 가능하다. 이를 통해 policy 를 개선해나간다.</p>
+:ET

@@ -1,0 +1,23 @@
+I"�<h2 id="reinforcement-learning-과-supervised-learning-의-차이">Reinforcement Learning 과 Supervised Learning 의 차이</h2>
+
+<p>Reinforcement Learning (RL) 과 Supervised Learning 의 차이점은 RL 의 경우에는 지도 데이터가 없다는 점이다. Agent 가 스스로 어떤 결정을 내리고, 그것에 대해서 Reward 만을 받는 것으로 학습해 나간다.</p>
+
+<p>만약 목적함수 F 를 정의하고, 이것을 곧 Reward 로 세팅하게되면, 목적함수 F 를 Maximize 하는 액션들을 스스로 학습한다는 점에서, Optimization Problemt Solving 의 한 방법이라고 볼 수 있지 않을까 싶다.</p>
+
+<h2 id="용어-정리">용어 정리</h2>
+
+<h3 id="reward">Reward</h3>
+
+<p>“scalar feedback signal”</p>
+
+<p>t step 에 얻은 reward 를 \(R_t\) 라고 하면,</p>
+
+<p>Agent의 목적은 이렇게 얻어낸 reward 들의 총합을 최대화하는 것을 목적으로 한다.</p>
+
+<h3 id="reward-hypothesis">Reward Hypothesis</h3>
+
+<p>“모든 목적은 cumulative reward 를 극대화하는 것으로 표현될 수 있다.”</p>
+
+<p>요컨대 reward 가 어떤 것을 기준으로 계산되어 Agent 에게 알려지는가가 중요하다.</p>
+
+:ET
