@@ -1,0 +1,88 @@
+I"�<p>Dynamic Programming 은 MDP 에 대한 모든 지식들을 전부 알고 있는 경우에 Planning 을 위해 쓰인다. ( 상태, State Translation Matrix, Reward Function 등 )</p>
+
+<p>Prediction 은 MDP 와 policy 가 주어졌을 때, Value function 을 맞추는 문제</p>
+
+<p>Control 은 MDP 가 주어졌을 때, optimal value function 과 optimal policy 를 찾는 문제</p>
+
+<h2 id="iterative-policy-evaluation">Iterative Policy Evaluation</h2>
+
+<p>해당 policy 를 따랐을때 value function 을 계산하는 방법론.</p>
+
+<p>synchronous backup.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v = [num of state]
+for k + 1 (아마 만족할때까지)
+    foreach s of State
+        update(v[s]) from v[s'] where s' is successor state of s
+</code></pre></div></div>
+
+\[v_{k + 1}(s) = \sum_{a \in A} \pi(a \vert s)(R_s^a + \gamma \sum_{s' \in S}P_{ss'}a v_k(s'))\]
+
+<p>위와 같이 얻어낸 value function 은 현재 policy 를 평가한 결과이다. (즉 prediction 문제를 푼 것) 그런데 이 때, value function 을 가지고 Greed 하게 선택을 하면 이는 더 나은 policy 가 된다. 현재 policy 가 무엇인지 상관없이, 더 나은 policy 가 만들어지는 것이다.</p>
+
+<p>주어진 Policy 에 대해서</p>
+
+<ol>
+  <li>Policy 를 평가하여 value function 을 만든다.</li>
+  <li>만들어진 value function 에 대해서 greed 하게 행동하는 policy 를 만든다.</li>
+</ol>
+
+<p>위의 과정을 반복하면 policy 가 점점 개선된다.
+\(\pi\) 는 점차 \(\pi_{*}\) 에 도달한다.</p>
+
+<p>이 방법론을 <strong>Policy Iteration</strong> 라고 한다.</p>
+
+<p>greedy 하게 행동하는 policy 는 deterministic policy 일 것이므로, 초기에 deterministic policy 가 주어졌다고 가정하고 증명을 시작한다.</p>
+
+<p>(deterministic 이란 policy 가 어떤 state 에서 하는 행동이 하나로 결정되어있음을 의미한다.)</p>
+
+<p>그러한 policy 를 \(\pi\) 라고 하면,</p>
+
+\[\pi'(s) = \max_{a \in A} q_\pi(s, a)\]
+
+<p>로 새로운 policy 를 만드는 것으로 개선하는 것이 가능할 것이다.</p>
+
+\[q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s, a) \ge \max q_\pi(s, \pi(s)) = v_\pi(s)\]
+
+\[v_\pi(s) \le q_\pi(s, \pi'(s)) =\]
+
+<p>// 49 : 19</p>
+
+<h2 id="modified-policy-iteration">Modified Policy Iteration</h2>
+
+<p>앞서 policy evaluation 을 value function 을 구할 때까지 돌려야 하는가? 하는 질문을 할 수 있는데, 적당히 3번을 하고 improve 를 진행해도 상관없다고 한다.</p>
+
+<h2 id="principle-of-optimality">Principle of Optimality</h2>
+
+<p>??</p>
+
+<h2 id="value-iteration">Value Iteration</h2>
+
+<p>Policy Iteration 은 Policy 가 주어진 상태에서 Policy Evaluation 과 Greed Policy 를 통한 Policy 개선을 반복하는 것이었는데,</p>
+
+<p>Value Iteration 은 Policy 가 없는 경우에 다음을 반복해서 optimal value function 을 찾는 과정이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v = [num of state]
+for k + 1 (아마 만족할때까지)
+    foreach s of State
+        update(v[s]) from v[s'] where s' is successor state of s
+</code></pre></div></div>
+
+\[v(s) = max_{a \in A}(R_s^a + \gamma \sum_{s' \in S} P_{ss'}^a v(s'))\]
+
+<p>을 이용해서 value function 을 업데이트한다.</p>
+
+<h2 id="여러-최적화-테크닉들">여러 최적화 테크닉들</h2>
+
+<h3 id="in-place-dynamic-programming">In-Place Dynamic Programming</h3>
+
+<p>위의 방법론들은 모든 상태 s 에 대해서 value function 을 업데이트할 때, 이전 iteration 에서의 value function 을 별도로 저장하고, 새로운 value function 을 위의 식들을 통해서 계산하는 식으로 동작했다.</p>
+
+<p>in-place dp 는 그냥 별도로 저장 안 하고, 바뀐 애를 참조한다면 그냥 바뀐 애를 이용해서 새로운 값을 계산하는 방식이다.</p>
+
+<h3 id="prioritised-sweeping">Prioritised Sweeping</h3>
+
+\[\left\vert max_{a \in A}(R_s^a + \gamma \sum_{s' \in S} P_{ss'}^a v(s')) - v(s) \right\vert\]
+
+<p>위와 같이 정의되는 Bellman error 가 큰 애들을 먼저 업데이트 한다.</p>
+:ET

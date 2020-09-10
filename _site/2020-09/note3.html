@@ -65,7 +65,7 @@
       <ul class="nav_list">
         <li class="nav_item">
           <a href="/categories/study" id="aa">study
-            (8)</a>
+            (13)</a>
         </li>
       </ul>
       
@@ -95,7 +95,7 @@
     
 
     <li class="nav_item">
-      <a href="/categories/study" id="aa">study (8)</a>
+      <a href="/categories/study" id="aa">study (13)</a>
     </li>
     
   </ul>
@@ -177,6 +177,22 @@
 <p>위와 같이 includePath 라는 프로퍼티에 사용하고자 하는 경로를 채워넣으면 된다.</p>
 
 <p>나는 CMake 파일을 직접 읽어서 add_include_directory 함수 밑의 경로를 전부 긁어다 넣었는데, 분명 더 쉬운 방법이 있지 않을까…</p>
+
+<hr />
+<h2 id="python-가상환경구축">Python 가상환경구축</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+
+virtualenv --system-site-packages -p python3 ./venv
+source ./venv/bin/activate
+pip install --upgrade pip
+deactivate
+</code></pre></div></div>
+
+<p>위와 같은 배시 스크립트를 가상환경을 구축하고자 하는 폴더에 넣고 실행한다.
+이후, VSCode 에서 해당 폴더를 열고 Ctrl + Shift + P =&gt; Python: Select Interpreter =&gt; 방금 만든 가상환경 설정</p>
+
+<p>VSCode 에서는 가상환경 구축이 안되면, 파이썬을 작성할 때 여러가지 하자가 있더라..</p>
 
   </div>
 

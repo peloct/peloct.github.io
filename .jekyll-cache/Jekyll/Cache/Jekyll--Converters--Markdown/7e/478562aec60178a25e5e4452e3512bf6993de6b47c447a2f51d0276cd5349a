@@ -1,0 +1,56 @@
+I"�<h2 id="q-table-방법론">Q-Table 방법론</h2>
+
+<p>Q-Table 방법론은 Environment 를 제한된 상태로 표현할 수 있고 액션 또한 한정되어 있는 경우, action-value function 를 학습시키는 방법론이다.</p>
+
+<p>Policy 는 action-value function 을 기반으로, 현재 상태에서 argmax 한 행동을 선택하는 것으로 한다. (Exploiting 을 위해 때때로 다른 행동을 하도록 랜덤값을 넣기도 한다.)</p>
+
+<p>action-value function 은 “어떤 상태에, 어떤 행동을 하면 최종적으로 몇 점을 기대할 수 있는가?” 를 말하기 때문에, 이를 별도의 테이블(Q-Table)에 저장한다고 하면 <strong>상태 수 x 액션 수</strong> 사이즈의 테이블이 요구된다.</p>
+
+<p>아이디어는 여러 번의 꽤 많은 episode 를 거치면서 다음의 식으로 action-value function 을 개선하는 것이다.</p>
+
+\[Q[ curState, action ] = R + \gamma * \max_{a \in Action} Q[ nextState, a]\]
+
+<p>\(R\) 는 방금 action 을 취함으로써 Environment 로부터 얻은 reward 이다.</p>
+
+<p>문제는 수식은 Environment 가 deterministic 한 경우에만 통한다. Environment 에 따라서 같은 상태에서 이전과 같은 action 을 취했을 때, 이전의 경험과는 다른 상태에 도달하는 Environment 또한 있다.</p>
+
+<p>이러한 경우에 위의 수식은 다음과 같이 바뀐다.</p>
+
+\[Q[ curState, action ] = (1 - \alpha) * Q[ curState, action ]\]
+
+\[+ \alpha * (R + \gamma * \max_{a \in Action} Q[ nextState, a])\]
+
+<p>요컨대 지금의 실패나 성공을 반드시 믿으며 이전의 경험을 날리지 않고, 이전의 경험을 조금씩 남기는 것이다. (\(\alpha\) 는 learning rate 라 하며 0부터 1사이의 값이다.)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">gym</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="p">.</span><span class="n">make</span><span class="p">(</span><span class="s">'FrozenLake-v0'</span><span class="p">)</span>
+<span class="n">env</span><span class="p">.</span><span class="n">render</span><span class="p">()</span>
+
+<span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">env</span><span class="p">.</span><span class="n">observation_space</span><span class="p">.</span><span class="n">n</span><span class="p">,</span> <span class="n">env</span><span class="p">.</span><span class="n">action_space</span><span class="p">.</span><span class="n">n</span><span class="p">])</span>
+<span class="n">num_episodes</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">discount_factor</span> <span class="o">=</span> <span class="mf">0.99</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.85</span>
+
+<span class="n">rList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">((</span><span class="n">i</span> <span class="o">//</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">state</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">env</span><span class="p">.</span><span class="n">action_space</span><span class="p">.</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">new_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="n">Q</span><span class="p">[</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">]</span> <span class="o">=</span>\
+            <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">learning_rate</span><span class="p">)</span> <span class="o">*</span> <span class="n">Q</span><span class="p">[</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">]</span>\
+            <span class="o">+</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">reward</span> <span class="o">+</span> <span class="n">discount_factor</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">Q</span><span class="p">[</span><span class="n">new_state</span><span class="p">,</span> <span class="p">:]))</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">new_state</span>
+    <span class="n">rList</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rAll</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"Success rate: "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">rList</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_episodes</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>위는 Stochastic 한 Environment 인 FrozenLake 를 푸는 Q-Table Method 의 구현이다.</p>
+:ET
