@@ -1,0 +1,47 @@
+I"�
+<h2 id="model-이란">model 이란?</h2>
+
+<p>Environment 로부터 주어지는 reward 와 state transition probability</p>
+
+<p>요컨대 어떤 상태에서 어떤 액션을 취할 때, 어느 정도의 Reward 를 받을 수 있을 지나 어떤 상태로 갈 지 모르는 경우는 model 을 모른다고 말한다.</p>
+
+<h2 id="rl-은-dp-의-한계를-보완하기-위해-발전했다">RL 은 DP 의 한계를 보완하기 위해 발전했다?</h2>
+
+<p>state 가 매우 많은 경우에는 DP 에서 익힌 방법론을 적용하기가 힘들다.
+DP 는 state 가 커질수록 계산량이 기하급수적으로 늘어난다.
+Bellman equation 등은 model 을 알아야 적용가능하다.</p>
+
+<p>RL 은 Evironment 로부터 Trial and Error 를 반복하며 model 을 학습해간다.</p>
+
+<h2 id="sample-backup-이란">sample backup 이란?</h2>
+
+<p>모든 state 를 가보지 않고, 그 중에서 sampling 을 통해 한 길만 선택해서 가보는 것</p>
+
+<h2 id="monte-calro-method-란">Monte-Calro Method 란?</h2>
+
+<p>policy 가 갖는 true value function 을 계산하는 방법론 중 하나. model 을 알지 못해도, 큰 수의 법칙을 이용해 true value function 에 근사해간다.</p>
+
+<p>Episode 를 샘플링하고, 그 과정에서 얻는 Reward 를 통해서 각 State 에서의 Return 을 계산, value function 을 업데이트 하길 반복한다.</p>
+
+<h2 id="monte-calro-method-의-의의">Monte-Calro Method 의 의의?</h2>
+
+<p>어떤 state 에서 어떤 action 을 취하면 어떤 state 로 간다의 정보(model)가 없어도 적용 가능</p>
+
+<h2 id="monte-carlo-policy-iteration-이란">Monte-Carlo Policy Iteration 이란?</h2>
+
+<p>Policy Iteration 과 정에서 Policy Evaluation 파트를 Monte-Carlo Policy Evaluation 이로 교체한 것</p>
+
+<h2 id="monte-carlo-policy-iteration-이-갖는-문제">Monte-Carlo Policy Iteration 이 갖는 문제</h2>
+
+<p>1) value function 의 model 의존성</p>
+
+<p>policy improvement 에서 value function 을 토대로 greedy 한 policy 를 계산할 때, model 이 필요하다. 그렇기 때문에 value function 대신 action value function 을 사용한다. policy evaluation 과정에서 action value function 을 Monte-Carlo 하게 계산하면, model 에 대한 정보가 필요 없고, greedy 한 policy 를 만들 때에도 state 에 저장된 action value function 중 argmax 한 action 을 취하면 되기 때문에, 역시 model 이 없어도 된다.</p>
+
+<p>2) local optimum</p>
+
+<p>국소해에서 멈출 수 있다. 그렇기 때문에 e-greedy 방법을 사용한다. 요컨대 어떤 0~1 사이의 값인 e 가 있어서, 그 확률로 다른 action 을 랜덤하게 취하는 것이다.</p>
+
+<p>3) Inefficiency of policy evaluation</p>
+
+<p>비효율성? 이것은 잘 모르겠다…</p>
+:ET

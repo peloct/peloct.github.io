@@ -2,6 +2,54 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
     <url>
+      <loc>http://localhost:4000/2020-09/note16</loc>
+      
+        <lastmod>2020-09-14T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/2020-09/note15</loc>
+      
+        <lastmod>2020-09-12T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
+      <loc>http://localhost:4000/2020-09/note14</loc>
+      
+        <lastmod>2020-09-12T00:00:00+09:00</lastmod>
+      
+
+      
+        <changefreq>weekly</changefreq>
+      
+
+      
+          <priority>0.5</priority>
+      
+
+    </url>
+  
+    <url>
       <loc>http://localhost:4000/2020-09/note13</loc>
       
         <lastmod>2020-09-09T00:00:00+09:00</lastmod>
@@ -67,22 +115,6 @@
   
     <url>
       <loc>http://localhost:4000/2020-09/note8</loc>
-      
-        <lastmod>2020-09-08T00:00:00+09:00</lastmod>
-      
-
-      
-        <changefreq>weekly</changefreq>
-      
-
-      
-          <priority>0.5</priority>
-      
-
-    </url>
-  
-    <url>
-      <loc>http://localhost:4000/2020-09/note10</loc>
       
         <lastmod>2020-09-08T00:00:00+09:00</lastmod>
       

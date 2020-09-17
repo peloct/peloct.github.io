@@ -1,0 +1,76 @@
+I"�<p>optimal policy 는 어떤 state 가 주어졌을 때, 해당 state 에서 optimal action value function Q 에 대해 argmax 한 action 을 deterministic 하게 수행하는 policy 이다. 즉, optimal policy 를 찾는 과정은 optimal action value function 이나 optimal state value function 을 찾는 과정이다. optimal value function 들은 다음과 같은 수식들을 만족한다. (참고로 optimal policy 는 여러 개 있을 수 있고, partial order 를 갖는다.)</p>
+
+<p>optimal state value function 과 optimal action value function 에 대해서 Bellman Equation 은 다음과 같다.</p>
+
+\[v_*(s) = \max_a q_*(s, a)\]
+
+\[q_*(s, a) = \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')\]
+
+<p>그리고 위의 식을 recursive 하게 정리하면,</p>
+
+\[v_*(s) = \max_a \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')\]
+
+\[q_*(s, a) = \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a \max_{a'} q_*(s', a')\]
+
+<p>이렇게 된다. 여기서</p>
+
+<p>\(\mathcal{R}_s^a\) : state s 에서 action a 를 했을 때, 얻을 수 있는 Reward 의 기댓값</p>
+
+\[\mathcal{R}_s^a = E[ R_{t+1} \vert S_t = s, A_t = a ]\]
+
+<p>\(\mathcal{P}_{ss'}^a\) : state s 에서 action a 를 했을 때, state s’ 가 될 확률 (gym 의 FrozenLake 문제와 같이 어떤 액션을 한다고 해서, 그 다음의 상태가 항상 Deterministic 하게 결정되는게 아니라, Stochastic 하게 결정될 수 있다.)</p>
+
+<p>그렇다면 어떤 과정을 통하면 위의 수식을 만족하는 value function 들을 계산해내는가?</p>
+
+<h2 id="dynamic-programming-의-경우">Dynamic Programming 의 경우</h2>
+
+<h3 id="policy-evaluation">Policy Evaluation</h3>
+
+<p>true value function 을 구하는 것을 Policy Evaluation 이라 한다.</p>
+
+\[v_{k+1}(s) = \sum_{a \in A} \pi(a \vert s)(\mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_k(s'))\]
+
+<h3 id="policy-iteration">Policy Iteration</h3>
+
+<p>가정 : deterministic policy 를 사용한다.</p>
+
+<p>다음을 반복한다.</p>
+
+<ol>
+  <li>현재 policy 에 대해서 각 state 의 state value function 을 구한다. (Policy Evaluation)</li>
+  <li>policy 를 각 state 에서 action value function 을 가장 최대화하는 action 을 취하는 것으로 교체한다. (greedy policy)</li>
+</ol>
+
+<p>위의 과정을 반복할 때마다 다음과 같이 value function 이 개선되어간다.</p>
+
+\[v_{\pi_1}(s) \leq v_{\pi_2}(s) \leq \cdots \leq v_{\pi_n}(s)\]
+
+<p>silver 교수님의 강의자료에서는 policy evaluation 과 policy improvement 를 반복하는 것으로 위의 과정이 성립함을 증명한다.</p>
+
+<p>최종적으로 더 이상 개선되지 않는 단계에 도달하게 되면 다음과 같이 되는데,</p>
+
+\[q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s, a) \quad (\because greedy\ improvement)\]
+
+\[= q_\pi(s, \pi(s)) = v_\pi(s)\]
+
+<p>그러므로</p>
+
+\[v_\pi(s) = \max_{a \in A} q_\pi(s, a)\]
+
+<p>그런데 이는 현재 value function 이, optimal value function 이 만족시키는 bellman equation 을 만족시킴을 말한다. 그러므로 현재 value function 은 optimal value function 이고, 따라서 policy 는 optimal policy 가 된다.</p>
+
+<h3 id="value-iteration">Value Iteration</h3>
+
+<p>Priniciple of Optimality 라는 Theorem 이 있다.</p>
+
+<p>이는 policy 가 <strong>state s 에서 optimal value 를 취한다</strong>라는 것이 <strong>state s 에서 갈 수 있는 모든 state s’ 들에 대해 optimal value 를 취한다</strong>와 동치임을 말한다.</p>
+
+<p>그래서 이러한 원리에 따라, 우리가 만약 어떤 상태 s’ 에서 optimal value function 을 구했다면, 그 state 로 action 을 취해 갈 수 있는 앞선 state s 의 optimal value function 을 다음의 식으로 구함에 따라 optimal policy 를 갖는 optimal value function 을 계산할 수 있다. (Policy Iteration 과 달리 Value function 만을 이용한다는 점이 중요하다.)</p>
+
+<p>만약 우리가 subproblem \(v_*(s')\) 의 해답을 안다면,</p>
+
+\[v_*(s) \leftarrow \max_{a \in A} \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')\]
+
+<p>위의 식을 전체 state 에 대해서 여러번 반복하다보면, optimal value function 이 구해지고, Principle of Optimality 에 의해 optimal policy 또한 구해진다. (음의 간선 가중치를 가질 수 있는 graph 에서의 shortest path 를 찾는 문제와 원리가 똑같다.)</p>
+
+:ET

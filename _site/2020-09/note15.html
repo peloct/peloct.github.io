@@ -4,7 +4,7 @@
 
 
 <head>
-  <title>(확률과 통계) 1. 확률 변수에 대해서 익힌 것 | JunWoo's Blog</title>
+  <title>강화학습 7 | JunWoo's Blog</title>
   
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="/assets/css/main.css" media="all">
-  <link rel="canonical" href="http://localhost:4000/2020-09/note1">
+  <link rel="canonical" href="http://localhost:4000/2020-09/note15">
   <link rel="alternate" type="application/rss+xml" title="JunWoo&#39;s Blog"
     href="/feed.xml" />
 
@@ -107,12 +107,12 @@
     <div class="post">
   <div>
     
-    <p class="post_title">(확률과 통계) 1. 확률 변수에 대해서 익힌 것</p>
+    <p class="post_title">강화학습 7</p>
     
   </div>
   <div class="post_data">
     
-    <span class="post_date">Sep 4, 2020</span>
+    <span class="post_date">Sep 12, 2020</span>
     
     
     <span class="post_categories">
@@ -122,51 +122,51 @@
     
   </div>
   <div class="post_content">
-    <p>이번 학기에 인공지능 과목을 듣는데,</p>
+    <h2 id="model-이란">model 이란?</h2>
 
-<p>교수님이 확률 통계에 대해서 모르면, F 를 받을 수 있다고 겁을 주었다.</p>
+<p>Environment 로부터 주어지는 reward 와 state transition probability</p>
 
-<p>나는 개인적으로 Calculus 와 Linear Algebra 에는 자신이 있었는데,</p>
+<p>요컨대 어떤 상태에서 어떤 액션을 취할 때, 어느 정도의 Reward 를 받을 수 있을 지나 어떤 상태로 갈 지 모르는 경우는 model 을 모른다고 말한다.</p>
 
-<p>확률 통계에 대해서는 완전히 문외한이기 때문에 새롭게 익히기로 했다.</p>
+<h2 id="rl-은-dp-의-한계를-보완하기-위해-발전했다">RL 은 DP 의 한계를 보완하기 위해 발전했다?</h2>
 
-<p>그리하여 원서를 읽기에는 시간이 오래 걸릴테니,</p>
+<p>state 가 매우 많은 경우에는 DP 에서 익힌 방법론을 적용하기가 힘들다.
+DP 는 state 가 커질수록 계산량이 기하급수적으로 늘어난다.
+Bellman equation 등은 model 을 알아야 적용가능하다.</p>
 
-<p><a href="http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&amp;mallGb=KOR&amp;barcode=9791160507829&amp;orderClick=LEa&amp;Kc="><em>프로그래머를 위한 확률과 통계</em></a>라는 책을 읽기로 했다.</p>
+<p>RL 은 Evironment 로부터 Trial and Error 를 반복하며 model 을 학습해간다.</p>
 
-<p>조금씩 읽으면서, 생각과는 달랐거나 기억할만한 내용들이 있다면 이곳에 노트를 할 것이다.</p>
+<h2 id="sample-backup-이란">sample backup 이란?</h2>
 
-<h2 id="노트-본문">노트 본문</h2>
+<p>모든 state 를 가보지 않고, 그 중에서 sampling 을 통해 한 길만 선택해서 가보는 것</p>
 
-<p>확률 변수에 대해서 새로운 시각을 얻었다.</p>
+<h2 id="monte-calro-method-란">Monte-Calro Method 란?</h2>
 
-<p>확률 변수라는 것은 어떤 값인데 특정확률로 어떤 값을 갖는 값이라고만 생각하고 있었다.</p>
+<p>policy 가 갖는 true value function 을 계산하는 방법론 중 하나. model 을 알지 못해도, 큰 수의 법칙을 이용해 true value function 에 근사해간다.</p>
 
-<p>하지만 확률 변수란 확률 공간이라는 곳에서 정의된 <strong>함수</strong>이며,</p>
+<p>Episode 를 샘플링하고, 그 과정에서 얻는 Reward 를 통해서 각 State 에서의 Return 을 계산, value function 을 업데이트 하길 반복한다.</p>
 
-<p>이 확률 변수가 어떤 값을 가질 확률이라는 것은 다음과 같다.</p>
+<h2 id="monte-calro-method-의-의의">Monte-Calro Method 의 의의?</h2>
 
-\[P(X = x) = P(Y)\]
+<p>어떤 state 에서 어떤 action 을 취하면 어떤 state 로 간다의 정보(model)가 없어도 적용 가능</p>
 
-<p>여기서 \(Y\) 라는 것은</p>
+<h2 id="monte-carlo-policy-iteration-이란">Monte-Carlo Policy Iteration 이란?</h2>
 
-\[Y = \left\{ y \in \Omega | X(y) = x \right\}\]
+<p>Policy Iteration 과 정에서 Policy Evaluation 파트를 Monte-Carlo Policy Evaluation 이로 교체한 것</p>
 
-<p>위와 같이 정의된다. 즉 확률 공간 \(\Omega\) 의 부분집합이다.</p>
+<h2 id="monte-carlo-policy-iteration-이-갖는-문제">Monte-Carlo Policy Iteration 이 갖는 문제</h2>
 
-<p>책에서는 <em>이 확률 공간이라는 것이 어떻게 생겼는가?</em> 보단,</p>
+<p>1) value function 의 model 의존성</p>
 
-<p>그 위에서 정의되는 확률 변수와 확률 함수 \(p\) 에 초점을 맞춰야한다고 했다.</p>
+<p>policy improvement 에서 value function 을 토대로 greedy 한 policy 를 계산할 때, model 이 필요하다. 그렇기 때문에 value function 대신 action value function 을 사용한다. policy evaluation 과정에서 action value function 을 Monte-Carlo 하게 계산하면, model 에 대한 정보가 필요 없고, greedy 한 policy 를 만들 때에도 state 에 저장된 action value function 중 argmax 한 action 을 취하면 되기 때문에, 역시 model 이 없어도 된다.</p>
 
-<p>우선 어떤 시스템이 가질 수 있는 모든 상태를 확률 공간이라고 생각하고,</p>
+<p>2) local optimum</p>
 
-<p>확률 공간의 부분집합 \(X\)를 어떤 값에 매핑시키는 확률 함수 \(P\)가</p>
+<p>국소해에서 멈출 수 있다. 그렇기 때문에 e-greedy 방법을 사용한다. 요컨대 어떤 0~1 사이의 값인 e 가 있어서, 그 확률로 다른 action 을 랜덤하게 취하는 것이다.</p>
 
-<p><strong>알맞게(아마 공리에 맞게)</strong> 정의되면, 확률 공간에서 정의되는 확률 변수에 대해</p>
+<p>3) Inefficiency of policy evaluation</p>
 
-<p>그 확률 변수가 어떤 값을 지니는가를 이 확률 함수를 통해 계산하는 것이 가능하다.</p>
-
-<p>즉, 시스템이 어떤 상태를 가질 확률을 구하는 것이 가능하다.</p>
+<p>비효율성? 이것은 잘 모르겠다…</p>
 
   </div>
 

@@ -6,9 +6,199 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 10 Sep 2020 21:06:41 +0900</pubDate>
-    <lastBuildDate>Thu, 10 Sep 2020 21:06:41 +0900</lastBuildDate>
+    <pubDate>Mon, 14 Sep 2020 22:12:17 +0900</pubDate>
+    <lastBuildDate>Mon, 14 Sep 2020 22:12:17 +0900</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>강화학습 8</title>
+        <description>&lt;h2 id=&quot;temporal-difference-td&quot;&gt;Temporal Difference (TD)&lt;/h2&gt;
+
+&lt;p&gt;TD 는 MC (Monte-Carlo) 와 유사한 방법론이지만, state value function 을 업데이트하는 시점이 다르다.&lt;/p&gt;
+
+&lt;p&gt;MC 는 하나의 Episode 가 전부 완결되었을 때, 최종적으로 얻은 Episode 상에서의 Reward 정보를 토대로 state value function 들을 업데이트한다.&lt;/p&gt;
+
+&lt;p&gt;하지만 TD 는 Episode 가 진행되는 동안, time step 이 진행됨에 따라 계속해서 state value function 을 업데이트한다.&lt;/p&gt;
+
+\[V(S_t) \leftarrow V(S_t) + \alpha (R_{t+1} + \gamma V(S_{t+1}) - V(S_t))\]
+
+&lt;h2 id=&quot;td-의-의의&quot;&gt;TD 의 의의&lt;/h2&gt;
+
+&lt;p&gt;Episode 가 전부 진행되지 않고도 state value function 을 업데이트할 수 있다는 점에 의의가 있다.&lt;/p&gt;
+
+&lt;p&gt;Environment 에 따라서 Episode 가 종결되기까지 오래 걸릴 수 있는것이다. 이러한 경우에 쓰일 수 있다.&lt;/p&gt;
+
+&lt;h2 id=&quot;td-가-갖는-문제점&quot;&gt;TD 가 갖는 문제점&lt;/h2&gt;
+
+&lt;p&gt;Bias 와 Variance&lt;/p&gt;
+
+&lt;h2 id=&quot;n-step-td&quot;&gt;n-step TD&lt;/h2&gt;
+
+&lt;p&gt;n 을 어떻게 결정하는가? 낮아도, 높아도 각각의 장단점이 있다.
+그래서 lammda return 방법론이 나온다.&lt;/p&gt;
+
+&lt;p&gt;그런데 문제는 n 이 커지면 episode 의 끝을 보지 않고도 value function update 가 가능하다는 TD 의 장점이 죽어버린다.&lt;/p&gt;
+
+&lt;p&gt;이를 해소하는 방법이 backward TD&lt;/p&gt;
+
+&lt;h2 id=&quot;lammad-return&quot;&gt;lammad return&lt;/h2&gt;
+
+&lt;h2 id=&quot;backward-td&quot;&gt;backward TD&lt;/h2&gt;
+
+&lt;p&gt;https://dnddnjs.gitbooks.io/rl/content/eligibility_traces.html&lt;/p&gt;
+</description>
+        <pubDate>Mon, 14 Sep 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020-09/note16</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-09/note16</guid>
+        
+        
+        <category>study</category>
+        
+      </item>
+    
+      <item>
+        <title>강화학습 7</title>
+        <description>&lt;h2 id=&quot;model-이란&quot;&gt;model 이란?&lt;/h2&gt;
+
+&lt;p&gt;Environment 로부터 주어지는 reward 와 state transition probability&lt;/p&gt;
+
+&lt;p&gt;요컨대 어떤 상태에서 어떤 액션을 취할 때, 어느 정도의 Reward 를 받을 수 있을 지나 어떤 상태로 갈 지 모르는 경우는 model 을 모른다고 말한다.&lt;/p&gt;
+
+&lt;h2 id=&quot;rl-은-dp-의-한계를-보완하기-위해-발전했다&quot;&gt;RL 은 DP 의 한계를 보완하기 위해 발전했다?&lt;/h2&gt;
+
+&lt;p&gt;state 가 매우 많은 경우에는 DP 에서 익힌 방법론을 적용하기가 힘들다.
+DP 는 state 가 커질수록 계산량이 기하급수적으로 늘어난다.
+Bellman equation 등은 model 을 알아야 적용가능하다.&lt;/p&gt;
+
+&lt;p&gt;RL 은 Evironment 로부터 Trial and Error 를 반복하며 model 을 학습해간다.&lt;/p&gt;
+
+&lt;h2 id=&quot;sample-backup-이란&quot;&gt;sample backup 이란?&lt;/h2&gt;
+
+&lt;p&gt;모든 state 를 가보지 않고, 그 중에서 sampling 을 통해 한 길만 선택해서 가보는 것&lt;/p&gt;
+
+&lt;h2 id=&quot;monte-calro-method-란&quot;&gt;Monte-Calro Method 란?&lt;/h2&gt;
+
+&lt;p&gt;policy 가 갖는 true value function 을 계산하는 방법론 중 하나. model 을 알지 못해도, 큰 수의 법칙을 이용해 true value function 에 근사해간다.&lt;/p&gt;
+
+&lt;p&gt;Episode 를 샘플링하고, 그 과정에서 얻는 Reward 를 통해서 각 State 에서의 Return 을 계산, value function 을 업데이트 하길 반복한다.&lt;/p&gt;
+
+&lt;h2 id=&quot;monte-calro-method-의-의의&quot;&gt;Monte-Calro Method 의 의의?&lt;/h2&gt;
+
+&lt;p&gt;어떤 state 에서 어떤 action 을 취하면 어떤 state 로 간다의 정보(model)가 없어도 적용 가능&lt;/p&gt;
+
+&lt;h2 id=&quot;monte-carlo-policy-iteration-이란&quot;&gt;Monte-Carlo Policy Iteration 이란?&lt;/h2&gt;
+
+&lt;p&gt;Policy Iteration 과 정에서 Policy Evaluation 파트를 Monte-Carlo Policy Evaluation 이로 교체한 것&lt;/p&gt;
+
+&lt;h2 id=&quot;monte-carlo-policy-iteration-이-갖는-문제&quot;&gt;Monte-Carlo Policy Iteration 이 갖는 문제&lt;/h2&gt;
+
+&lt;p&gt;1) value function 의 model 의존성&lt;/p&gt;
+
+&lt;p&gt;policy improvement 에서 value function 을 토대로 greedy 한 policy 를 계산할 때, model 이 필요하다. 그렇기 때문에 value function 대신 action value function 을 사용한다. policy evaluation 과정에서 action value function 을 Monte-Carlo 하게 계산하면, model 에 대한 정보가 필요 없고, greedy 한 policy 를 만들 때에도 state 에 저장된 action value function 중 argmax 한 action 을 취하면 되기 때문에, 역시 model 이 없어도 된다.&lt;/p&gt;
+
+&lt;p&gt;2) local optimum&lt;/p&gt;
+
+&lt;p&gt;국소해에서 멈출 수 있다. 그렇기 때문에 e-greedy 방법을 사용한다. 요컨대 어떤 0~1 사이의 값인 e 가 있어서, 그 확률로 다른 action 을 랜덤하게 취하는 것이다.&lt;/p&gt;
+
+&lt;p&gt;3) Inefficiency of policy evaluation&lt;/p&gt;
+
+&lt;p&gt;비효율성? 이것은 잘 모르겠다…&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 Sep 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020-09/note15</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-09/note15</guid>
+        
+        
+        <category>study</category>
+        
+      </item>
+    
+      <item>
+        <title>강화학습 3 (Dynamic Programming)</title>
+        <description>&lt;p&gt;optimal policy 는 어떤 state 가 주어졌을 때, 해당 state 에서 optimal action value function Q 에 대해 argmax 한 action 을 deterministic 하게 수행하는 policy 이다. 즉, optimal policy 를 찾는 과정은 optimal action value function 이나 optimal state value function 을 찾는 과정이다. optimal value function 들은 다음과 같은 수식들을 만족한다. (참고로 optimal policy 는 여러 개 있을 수 있고, partial order 를 갖는다.)&lt;/p&gt;
+
+&lt;p&gt;optimal state value function 과 optimal action value function 에 대해서 Bellman Equation 은 다음과 같다.&lt;/p&gt;
+
+\[v_*(s) = \max_a q_*(s, a)\]
+
+\[q_*(s, a) = \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')\]
+
+&lt;p&gt;그리고 위의 식을 recursive 하게 정리하면,&lt;/p&gt;
+
+\[v_*(s) = \max_a \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')\]
+
+\[q_*(s, a) = \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a \max_{a'} q_*(s', a')\]
+
+&lt;p&gt;이렇게 된다. 여기서&lt;/p&gt;
+
+&lt;p&gt;\(\mathcal{R}_s^a\) : state s 에서 action a 를 했을 때, 얻을 수 있는 Reward 의 기댓값&lt;/p&gt;
+
+\[\mathcal{R}_s^a = E[ R_{t+1} \vert S_t = s, A_t = a ]\]
+
+&lt;p&gt;\(\mathcal{P}_{ss'}^a\) : state s 에서 action a 를 했을 때, state s’ 가 될 확률 (gym 의 FrozenLake 문제와 같이 어떤 액션을 한다고 해서, 그 다음의 상태가 항상 Deterministic 하게 결정되는게 아니라, Stochastic 하게 결정될 수 있다.)&lt;/p&gt;
+
+&lt;p&gt;그렇다면 어떤 과정을 통하면 위의 수식을 만족하는 value function 들을 계산해내는가?&lt;/p&gt;
+
+&lt;h2 id=&quot;dynamic-programming-의-경우&quot;&gt;Dynamic Programming 의 경우&lt;/h2&gt;
+
+&lt;h3 id=&quot;policy-evaluation&quot;&gt;Policy Evaluation&lt;/h3&gt;
+
+&lt;p&gt;true value function 을 구하는 것을 Policy Evaluation 이라 한다.&lt;/p&gt;
+
+\[v_{k+1}(s) = \sum_{a \in A} \pi(a \vert s)(\mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_k(s'))\]
+
+&lt;h3 id=&quot;policy-iteration&quot;&gt;Policy Iteration&lt;/h3&gt;
+
+&lt;p&gt;가정 : deterministic policy 를 사용한다.&lt;/p&gt;
+
+&lt;p&gt;다음을 반복한다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;현재 policy 에 대해서 각 state 의 state value function 을 구한다. (Policy Evaluation)&lt;/li&gt;
+  &lt;li&gt;policy 를 각 state 에서 action value function 을 가장 최대화하는 action 을 취하는 것으로 교체한다. (greedy policy)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;위의 과정을 반복할 때마다 다음과 같이 value function 이 개선되어간다.&lt;/p&gt;
+
+\[v_{\pi_1}(s) \leq v_{\pi_2}(s) \leq \cdots \leq v_{\pi_n}(s)\]
+
+&lt;p&gt;silver 교수님의 강의자료에서는 policy evaluation 과 policy improvement 를 반복하는 것으로 위의 과정이 성립함을 증명한다.&lt;/p&gt;
+
+&lt;p&gt;최종적으로 더 이상 개선되지 않는 단계에 도달하게 되면 다음과 같이 되는데,&lt;/p&gt;
+
+\[q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s, a) \quad (\because greedy\ improvement)\]
+
+\[= q_\pi(s, \pi(s)) = v_\pi(s)\]
+
+&lt;p&gt;그러므로&lt;/p&gt;
+
+\[v_\pi(s) = \max_{a \in A} q_\pi(s, a)\]
+
+&lt;p&gt;그런데 이는 현재 value function 이, optimal value function 이 만족시키는 bellman equation 을 만족시킴을 말한다. 그러므로 현재 value function 은 optimal value function 이고, 따라서 policy 는 optimal policy 가 된다.&lt;/p&gt;
+
+&lt;h3 id=&quot;value-iteration&quot;&gt;Value Iteration&lt;/h3&gt;
+
+&lt;p&gt;Priniciple of Optimality 라는 Theorem 이 있다.&lt;/p&gt;
+
+&lt;p&gt;이는 policy 가 &lt;strong&gt;state s 에서 optimal value 를 취한다&lt;/strong&gt;라는 것이 &lt;strong&gt;state s 에서 갈 수 있는 모든 state s’ 들에 대해 optimal value 를 취한다&lt;/strong&gt;와 동치임을 말한다.&lt;/p&gt;
+
+&lt;p&gt;그래서 이러한 원리에 따라, 우리가 만약 어떤 상태 s’ 에서 optimal value function 을 구했다면, 그 state 로 action 을 취해 갈 수 있는 앞선 state s 의 optimal value function 을 다음의 식으로 구함에 따라 optimal policy 를 갖는 optimal value function 을 계산할 수 있다. (Policy Iteration 과 달리 Value function 만을 이용한다는 점이 중요하다.)&lt;/p&gt;
+
+&lt;p&gt;만약 우리가 subproblem \(v_*(s')\) 의 해답을 안다면,&lt;/p&gt;
+
+\[v_*(s) \leftarrow \max_{a \in A} \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')\]
+
+&lt;p&gt;위의 식을 전체 state 에 대해서 여러번 반복하다보면, optimal value function 이 구해지고, Principle of Optimality 에 의해 optimal policy 또한 구해진다. (음의 간선 가중치를 가질 수 있는 graph 에서의 shortest path 를 찾는 문제와 원리가 똑같다.)&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 12 Sep 2020 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2020-09/note14</link>
+        <guid isPermaLink="true">http://localhost:4000/2020-09/note14</guid>
+        
+        
+        <category>study</category>
+        
+      </item>
     
       <item>
         <title>강화학습 5 (Q-Network 방법론)</title>
@@ -869,105 +1059,6 @@ positive symmetric 한 행렬은 다음의 성질을 갖는다. (아마? 기억�
         <pubDate>Tue, 08 Sep 2020 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/2020-09/note8</link>
         <guid isPermaLink="true">http://localhost:4000/2020-09/note8</guid>
-        
-        
-        <category>study</category>
-        
-      </item>
-    
-      <item>
-        <title>강화학습 3</title>
-        <description>&lt;p&gt;Dynamic Programming 은 MDP 에 대한 모든 지식들을 전부 알고 있는 경우에 Planning 을 위해 쓰인다. ( 상태, State Translation Matrix, Reward Function 등 )&lt;/p&gt;
-
-&lt;p&gt;Prediction 은 MDP 와 policy 가 주어졌을 때, Value function 을 맞추는 문제&lt;/p&gt;
-
-&lt;p&gt;Control 은 MDP 가 주어졌을 때, optimal value function 과 optimal policy 를 찾는 문제&lt;/p&gt;
-
-&lt;h2 id=&quot;iterative-policy-evaluation&quot;&gt;Iterative Policy Evaluation&lt;/h2&gt;
-
-&lt;p&gt;해당 policy 를 따랐을때 value function 을 계산하는 방법론.&lt;/p&gt;
-
-&lt;p&gt;synchronous backup.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;v = [num of state]
-for k + 1 (아마 만족할때까지)
-    foreach s of State
-        update(v[s]) from v[s'] where s' is successor state of s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-\[v_{k + 1}(s) = \sum_{a \in A} \pi(a \vert s)(R_s^a + \gamma \sum_{s' \in S}P_{ss'}a v_k(s'))\]
-
-&lt;p&gt;위와 같이 얻어낸 value function 은 현재 policy 를 평가한 결과이다. (즉 prediction 문제를 푼 것) 그런데 이 때, value function 을 가지고 Greed 하게 선택을 하면 이는 더 나은 policy 가 된다. 현재 policy 가 무엇인지 상관없이, 더 나은 policy 가 만들어지는 것이다.&lt;/p&gt;
-
-&lt;p&gt;주어진 Policy 에 대해서&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Policy 를 평가하여 value function 을 만든다.&lt;/li&gt;
-  &lt;li&gt;만들어진 value function 에 대해서 greed 하게 행동하는 policy 를 만든다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;위의 과정을 반복하면 policy 가 점점 개선된다.
-\(\pi\) 는 점차 \(\pi_{*}\) 에 도달한다.&lt;/p&gt;
-
-&lt;p&gt;이 방법론을 &lt;strong&gt;Policy Iteration&lt;/strong&gt; 라고 한다.&lt;/p&gt;
-
-&lt;p&gt;greedy 하게 행동하는 policy 는 deterministic policy 일 것이므로, 초기에 deterministic policy 가 주어졌다고 가정하고 증명을 시작한다.&lt;/p&gt;
-
-&lt;p&gt;(deterministic 이란 policy 가 어떤 state 에서 하는 행동이 하나로 결정되어있음을 의미한다.)&lt;/p&gt;
-
-&lt;p&gt;그러한 policy 를 \(\pi\) 라고 하면,&lt;/p&gt;
-
-\[\pi'(s) = \max_{a \in A} q_\pi(s, a)\]
-
-&lt;p&gt;로 새로운 policy 를 만드는 것으로 개선하는 것이 가능할 것이다.&lt;/p&gt;
-
-\[q_\pi(s, \pi'(s)) = \max_{a \in A} q_\pi(s, a) \ge \max q_\pi(s, \pi(s)) = v_\pi(s)\]
-
-\[v_\pi(s) \le q_\pi(s, \pi'(s)) =\]
-
-&lt;p&gt;// 49 : 19&lt;/p&gt;
-
-&lt;h2 id=&quot;modified-policy-iteration&quot;&gt;Modified Policy Iteration&lt;/h2&gt;
-
-&lt;p&gt;앞서 policy evaluation 을 value function 을 구할 때까지 돌려야 하는가? 하는 질문을 할 수 있는데, 적당히 3번을 하고 improve 를 진행해도 상관없다고 한다.&lt;/p&gt;
-
-&lt;h2 id=&quot;principle-of-optimality&quot;&gt;Principle of Optimality&lt;/h2&gt;
-
-&lt;p&gt;??&lt;/p&gt;
-
-&lt;h2 id=&quot;value-iteration&quot;&gt;Value Iteration&lt;/h2&gt;
-
-&lt;p&gt;Policy Iteration 은 Policy 가 주어진 상태에서 Policy Evaluation 과 Greed Policy 를 통한 Policy 개선을 반복하는 것이었는데,&lt;/p&gt;
-
-&lt;p&gt;Value Iteration 은 Policy 가 없는 경우에 다음을 반복해서 optimal value function 을 찾는 과정이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;v = [num of state]
-for k + 1 (아마 만족할때까지)
-    foreach s of State
-        update(v[s]) from v[s'] where s' is successor state of s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-\[v(s) = max_{a \in A}(R_s^a + \gamma \sum_{s' \in S} P_{ss'}^a v(s'))\]
-
-&lt;p&gt;을 이용해서 value function 을 업데이트한다.&lt;/p&gt;
-
-&lt;h2 id=&quot;여러-최적화-테크닉들&quot;&gt;여러 최적화 테크닉들&lt;/h2&gt;
-
-&lt;h3 id=&quot;in-place-dynamic-programming&quot;&gt;In-Place Dynamic Programming&lt;/h3&gt;
-
-&lt;p&gt;위의 방법론들은 모든 상태 s 에 대해서 value function 을 업데이트할 때, 이전 iteration 에서의 value function 을 별도로 저장하고, 새로운 value function 을 위의 식들을 통해서 계산하는 식으로 동작했다.&lt;/p&gt;
-
-&lt;p&gt;in-place dp 는 그냥 별도로 저장 안 하고, 바뀐 애를 참조한다면 그냥 바뀐 애를 이용해서 새로운 값을 계산하는 방식이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;prioritised-sweeping&quot;&gt;Prioritised Sweeping&lt;/h3&gt;
-
-\[\left\vert max_{a \in A}(R_s^a + \gamma \sum_{s' \in S} P_{ss'}^a v(s')) - v(s) \right\vert\]
-
-&lt;p&gt;위와 같이 정의되는 Bellman error 가 큰 애들을 먼저 업데이트 한다.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 08 Sep 2020 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/2020-09/note10</link>
-        <guid isPermaLink="true">http://localhost:4000/2020-09/note10</guid>
         
         
         <category>study</category>
