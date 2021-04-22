@@ -34,4 +34,4 @@ cd $CURR_DIR
 git commit -m "\"New blog entry ${FILE_BASE}\""
 
 # push changes to server
-# git push
+git push
