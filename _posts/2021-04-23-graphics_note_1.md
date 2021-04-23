@@ -70,7 +70,7 @@ plt.show()
 
 
     
-![png](assets/img/graphics_note_1_files/graphics_note_1_4_0.png)
+![png](/assets/img/graphics_note_1_files/graphics_note_1_4_0.png)
     
 
 
