@@ -17,11 +17,15 @@ cd $NOTE_PATH
 jupyter nbconvert --to markdown $FILE_NAME
 
 # change image paths
-sed -i .bak "s:\[png\](:[png](/assets/img/:" $POST_NAME
+#sed -i "s/[png](/[png](/g" $POST_NAME
 
 # move everything to blog area
-mv  $POST_NAME "${POST_PATH}/${POST_DATE_NAME}"
-mv  $IMG_NAME "${IMG_PATH}/"
+mv $POST_NAME "${POST_PATH}/${POST_DATE_NAME}"
+if [ -d "${IMG_PATH}/${IMG_NAME}" ]; then rm -Rf "${IMG_PATH}/${IMG_NAME}"; fi
+mv $IMG_NAME "${IMG_PATH}/"
+
+cd $CURR_DIR
+python "change_img_path.py" "${POST_PATH}/${POST_DATE_NAME}"
 
 # add files to git repo to be included in next commit
 cd $POST_PATH
