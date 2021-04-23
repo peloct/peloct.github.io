@@ -12,7 +12,7 @@ comments: true
 
 인간이 느낄 수 있는 최소 변화 비율은 1.02 만큼의 변화라고 하는데
 
-어떤 display가 출력하는 최소 intensity가 $I_{min}$, 최대 intensity가 $I_{max}$ 이면,
+어떤 display가 출력하는 최소 intensity가 $$I_{min}$$, 최대 intensity가 $$I_{max}$$ 이면,
 
 $$I_{min} * (1.02)^n = I_{max}$$
 
@@ -20,9 +20,9 @@ $$I_{min} * (1.02)^n = I_{max}$$
 
 또한 이 그라데이션은 사람이 인지하기에 선형적으로 증가하는 것처럼 보일 것이다.
 
-여기서 $I_{max}\over I_{min}$ 을 dynamic range라고 하는데,
+여기서 $$I_{max}\over I_{min}$$ 을 dynamic range라고 하는데,
 
-dynamic range가 클 수록, 부드러운 그라데이션을 형성하기 위해 필요한 $n$의 사이즈가 커진다.
+dynamic range가 클 수록, 부드러운 그라데이션을 형성하기 위해 필요한 $$n$$의 사이즈가 커진다.
 
 그리고 이는 pixel의 밝기를 저장하기 위해서 요구되는 bit의 수가 증가한다는 것을 의미한다.
 
