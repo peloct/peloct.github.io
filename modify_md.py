@@ -7,6 +7,8 @@ if __name__ == '__main__':
     md = argv[0]
     fin = open(md, "rt", encoding='UTF8')
     data = fin.read()
+    data = data.replace('$', '$$')
+    data = data.replace('$$$$', '$$')
     data = data.replace('[png](', '[png](/assets/img/')
     fin.close()
 

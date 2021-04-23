@@ -25,7 +25,7 @@ if [ -d "${IMG_PATH}/${IMG_NAME}" ]; then rm -Rf "${IMG_PATH}/${IMG_NAME}"; fi
 mv $IMG_NAME "${IMG_PATH}/"
 
 cd $CURR_DIR
-python "change_img_path.py" "${POST_PATH}/${POST_DATE_NAME}"
+python "modify_md.py" "${POST_PATH}/${POST_DATE_NAME}"
 
 # add files to git repo to be included in next commit
 cd $POST_PATH
