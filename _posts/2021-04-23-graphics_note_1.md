@@ -34,8 +34,8 @@ $$2^{bit number} \ge \log_{1.02} {I_{max}\over I_{min}}$$
 ```python
 import numpy as np
 
-a = np.lo[png](100.0) / np.lo[png](1.02)
-min_bit_number = np.lo[png](a) / np.lo[png](2.0)
+a = np.log(100.0) / np.log(1.02)
+min_bit_number = np.log(a) / np.log(2.0)
 min_bit_number
 ```
 
@@ -59,7 +59,7 @@ import matplotlib.pyplot as plt
 i_min = 1.0
 i_max = 100.0
 
-n = np.lo[png](i_max / i_min) / np.lo[png](1.02)
+n = np.log(i_max / i_min) / np.log(1.02)
 
 x = np.array([(i / 999.0) for i in range(1000)])
 y = i_min * (1.02 ** (n * x))
@@ -70,7 +70,7 @@ plt.show()
 
 
     
-![png](graphics_note_1_files/graphics_note_1_4_0.png)
+![png](assets/img/graphics_note_1_files/graphics_note_1_4_0.png)
     
 
 
