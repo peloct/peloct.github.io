@@ -43,7 +43,7 @@ plt.imshow(img[::-1, :, :])
 
 
 
-    <matplotlib.image.AxesImage at 0x1fce2e02400>
+    <matplotlib.image.AxesImage at 0x1c618e69e50>
 
 
 
@@ -107,7 +107,7 @@ plt.imshow(img[::-1, :, :])
 
 
 
-    <matplotlib.image.AxesImage at 0x1fce2c780a0>
+    <matplotlib.image.AxesImage at 0x1c6192d4070>
 
 
 
@@ -172,7 +172,7 @@ plt.imshow(img[::-1, :, :])
 
 
 
-    <matplotlib.image.AxesImage at 0x1fce2cd6ac0>
+    <matplotlib.image.AxesImage at 0x1c6192f6f70>
 
 
 
@@ -259,7 +259,7 @@ plt.imshow(img[::-1, :, :])
 
 
 
-    <matplotlib.image.AxesImage at 0x1fce2d319d0>
+    <matplotlib.image.AxesImage at 0x1c61968c160>
 
 
 
@@ -298,7 +298,7 @@ plt.imshow(img[::-1, :, :])
 
 
 
-    <matplotlib.image.AxesImage at 0x1fce3c8cdc0>
+    <matplotlib.image.AxesImage at 0x1c6196cef40>
 
 
 
@@ -314,7 +314,11 @@ parameter 수가 많은 경우에는 barycentric coordinate을 이용하면 더 
 
 
 ```python
-def draw_triangle(pos: np.ndarray, param: np.ndarray):
+def f1(param):
+    return param
+
+
+def draw_triangle(pos: np.ndarray, param: np.ndarray, fragment_function):
     m = np.zeros(shape=(2, 2))
     m[0, :] = pos[1] - pos[0]
     m[1, :] = pos[2] - pos[0]
@@ -331,12 +335,11 @@ def draw_triangle(pos: np.ndarray, param: np.ndarray):
     
     for p in get_triangle_pixels(pos):
         b = c @ (p - pos[0]) + b0
-        color = np.clip(param.T @ b, 0.0, 1.0)
-        img[p[1], p[0], :] = color
+        img[p[1], p[0], :] = np.clip(fragment_function(np.clip(param.T @ b, 0.0, 1.0)), 0.0, 1.0)
 
 draw_triangle(t[:, :-1] * 256, np.array([[1.0, 0.0, 0.0],
                                         [0.0, 1.0, 0.0],
-                                        [0.0, 0.0, 1.0]]))
+                                        [0.0, 0.0, 1.0]]), f1)
 plt.figure(figsize = (10, 10))
 plt.imshow(img[::-1, :, :])
 ```
@@ -344,7 +347,7 @@ plt.imshow(img[::-1, :, :])
 
 
 
-    <matplotlib.image.AxesImage at 0x1fce49eb970>
+    <matplotlib.image.AxesImage at 0x1c6197303a0>
 
 
 
@@ -385,10 +388,12 @@ $$ M_{ortho} = \begin{pmatrix}
 
 $$ M_{per} = M_{ortho} * M_{p} $$
 
+이를 코드로 구현하고, 체스판을 원근감있게 랜더링해보자.
+
 
 ```python
-cam_pos = np.array([-1.0, -1.0, 3.0])
-cam_target = np.array([0.0, 0.0, 0.0])
+cam_pos = np.array([-2.0, 1.0, 3.0]) * 0.5
+cam_target = np.array([0.5, 0.5, 0.0])
 cam_up = np.array([0.0, 1.0, 0.0])
 cam_z = cam_pos - cam_target
 cam_z /= np.linalg.norm(cam_z)
@@ -430,12 +435,106 @@ m_ortho[3, 3] = 1.0
 
 m_vp = m_ortho @ m_p @ m_cam
 
-t = np.zeros(shape=(4, 3))
-t[:, 0] = np.array([0.0, 0.0, 0.0, 1.0])
-t[:, 1] = np.array([1.0, 0.0, 0.0, 1.0])
-t[:, 2] = np.array([0.0, 1.0, 0.0, 1.0])
-ndc = m_vp @ t
-ndc = ndc.T
-ndc_w = ndc[:, 3].reshape(3,)
-ndc = (ndc / ndc_w[:, None]).T
+img = np.zeros(shape=(256, 256, 3))
+
+def project(pos):
+    ndc = m_vp @ pos.T
+    ndc = ndc.T
+    ndc_w = ndc[:, 3].reshape(3,)
+    ndc = (ndc / ndc_w[:, None]).T
+    return ((ndc[0:2,:] + 1.0) * 0.5 * 256).T, ndc_w
+
+def f1(param):
+    color = np.floor(param / 0.1).astype(np.int32) % 2
+    color = (color[0] + color[1]) % 2
+    return np.ones(shape=(3,)) * color
+
+
+t = np.zeros(shape=(3, 4))
+t[0] = np.array([0.0, 0.0, 0.0, 1.0])
+t[1] = np.array([1.0, 0.0, 0.0, 1.0])
+t[2] = np.array([0.0, 1.0, 0.0, 1.0])
+t1, z1 = project(t)
+t[0] = np.array([0.0, 1.0, 0.0, 1.0])
+t[1] = np.array([1.0, 0.0, 0.0, 1.0])
+t[2] = np.array([1.0, 1.0, 0.0, 1.0])
+t2, z2 = project(t)
+
+draw_triangle(t1, np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0]]), f1)
+draw_triangle(t2, np.array([[0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]), f1)
+plt.figure(figsize = (10, 10))
+plt.imshow(img[::-1, :, :])
 ```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x1c61a0650d0>
+
+
+
+
+    
+![png](/assets/img/graphics_note_2_files/graphics_note_2_14_1.png)
+    
+
+
+## Perspectively correct interpolation
+
+위 코드의 결과를 보면 뭔가 맞지만, 뭔가가 틀리다는 점을 알 수 있다.
+
+우리가 원하는 결과물은 원근감이 잘 적용된 체스판이지만,
+
+위의 체스판은 그리드가 중간에 꺾여있다.
+
+위와 같은 결과가 나온 이유는 world 상에서 linear 한 parameter 가 projection 을 거친 이후에는
+
+더 이상 linear 하지 않기 때문이다.
+
+자세한 내용은 다음의 문서를 참고하자.
+
+https://www.comp.nus.edu.sg/~lowkl/publications/lowk_persp_interp_techrep.pdf
+
+
+```python
+def draw_triangle(pos: np.ndarray, z: np.ndarray, param: np.ndarray, fragment_function):
+    m = np.zeros(shape=(2, 2))
+    m[0, :] = pos[1, 0:2] - pos[0, 0:2]
+    m[1, :] = pos[2, 0:2] - pos[0, 0:2]
+    q = np.zeros(shape=(2, 3))
+    q[0, 0] = -1.0
+    q[1, 0] = -1.0
+    q[0, 1] = 1.0
+    q[1, 1] = 0.0
+    q[0, 2] = 0.0
+    q[1, 2] = 1.0
+    c = np.linalg.inv(m) @ q
+    c = c.T
+    b0 = np.array([1.0, 0.0, 0.0])
+    inv_z = 1 / z
+    
+    for p in get_triangle_pixels(pos):
+        b = c @ (p - pos[0, 0:2]) + b0
+        b_z = 1 / (inv_z.T @ b)
+        scale = inv_z * b_z
+        b = b * scale
+        img[p[1], p[0], :] = np.clip(fragment_function(np.clip(param.T @ b, 0.0, 1.0)), 0.0, 1.0)
+
+draw_triangle(t1, z1, np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0]]), f1)
+draw_triangle(t2, z2, np.array([[0.0, 1.0], [1.0, 0.0], [1.0, 1.0]]), f1)
+plt.figure(figsize = (10, 10))
+plt.imshow(img[::-1, :, :])
+```
+
+
+
+
+    <matplotlib.image.AxesImage at 0x1c61a392c40>
+
+
+
+
+    
+![png](/assets/img/graphics_note_2_files/graphics_note_2_16_1.png)
+    
+
