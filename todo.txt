@@ -1,0 +1,8 @@
+선형대수 Row Space 와 Null Space 의 의미
+Fundamental theorem of linear algebra
+
+deap learning 코드 구현
+
+rasterization 에 linear interpolation
+perspective projection
+
