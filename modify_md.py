@@ -9,6 +9,8 @@ if __name__ == '__main__':
     data = fin.read()
     data = data.replace('$', '$$')
     data = data.replace('$$$$', '$$')
+    data = data.replace('{{', '{ {')
+    data = data.replace('}}', '} }')
     data = data.replace('[png](', '[png](/assets/img/')
     fin.close()
 

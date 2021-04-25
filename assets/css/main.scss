@@ -171,8 +171,8 @@ img {
 
 .aboutme {
     @include breakpoint(medium) {
-        max-width: 30rem;
-        margin-top: 5.5rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
 
         img {
             float: left;
@@ -242,8 +242,8 @@ img {
     }
 
     @include breakpoint(medium) {
-        max-width: 30rem;
-        margin-top: 5rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
     }
 
     @include mobile-only {

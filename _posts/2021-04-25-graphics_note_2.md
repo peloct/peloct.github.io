@@ -380,9 +380,9 @@ normalized device coordinate 으로 옮기는 orthographic projection 을 곱하
 perspective projection (공간의 형태는 꼭대기가 잘려나간 피라미드)가 완성된다.
 
 $$ M_{ortho} = \begin{pmatrix}
-2 \over {r - l} & 0 & 0 & -{{r + l} \over {r - l}} \\
-0 & 2 \over {t - b} & 0 & -{{t + b} \over {t - b}} \\
-0 & 0 & 2 \over {n - f} & -{{n + f} \over {n - f}} \\
+2 \over {r - l} & 0 & 0 & -{ {r + l} \over {r - l} } \\
+0 & 2 \over {t - b} & 0 & -{ {t + b} \over {t - b} } \\
+0 & 0 & 2 \over {n - f} & -{ {n + f} \over {n - f} } \\
 0 & 0 & 0 & 1 \end{pmatrix} $$
 
 $$ M_{per} = M_{ortho} * M_{p} $$

@@ -1,0 +1,78 @@
+I"2<h2 id="pixel-value-와-light-intensity">pixel value 와 light intensity</h2>
+
+<p>단적으로 사람은 빛의 세기 (밝고 어두운 정도)의 비선형적인 변화(exponential한 변화)를 선형적으로 느끼는 듯하다.</p>
+
+<p>예를 들어, 빛의 intensity가 1에서 2로 된 것과 2에서 4로 된 것을 같은 정도의 변화라고 느낀다.</p>
+
+<p>인간이 느낄 수 있는 최소 변화 비율은 1.02 만큼의 변화라고 하는데</p>
+
+<p>어떤 display가 출력하는 최소 intensity가 \(I_{min}\), 최대 intensity가 \(I_{max}\) 이면,</p>
+
+\[I_{min} * (1.02)^n = I_{max}\]
+
+<p>의 방정식을 푸는 것으로써, 해당 display에서 부드러운 그라데이션을 형성하기 위해 총 몇 번의 step을 거쳐야 하는지 알 수 있다.</p>
+
+<p>또한 이 그라데이션은 사람이 인지하기에 선형적으로 증가하는 것처럼 보일 것이다.</p>
+
+<p>여기서 \(I_{max}\over I_{min}\) 을 dynamic range라고 하는데,</p>
+
+<p>dynamic range가 클 수록, 부드러운 그라데이션을 형성하기 위해 필요한 \(n\)의 사이즈가 커진다.</p>
+
+<p>그리고 이는 pixel의 밝기를 저장하기 위해서 요구되는 bit의 수가 증가한다는 것을 의미한다.</p>
+
+\[2^{bit number} \ge \log_{1.02} {I_{max}\over I_{min}}\]
+
+<p>일반적인 모니터에서는 dynamic range가 100 이라고 하는데 위의 식을 풀어보면,</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="mf">100.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.02</span><span class="p">)</span>
+<span class="n">min_bit_number</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">min_bit_number</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7.861418811173846
+</code></pre></div></div>
+
+<p>최소한 8bit가 필요하다는 것을 알 수 있다.</p>
+
+<p>그리고 여기에서 알 수 있는 것은 pixel value는 실제 빛의 밝기가 아닌 인지적으로 선형적인 밝기를 나타내는 값임을 알 수 있다.</p>
+
+<p>graphic library에서 pixel value를 넘겨주면, 이것을 display가 표현 가능한 실제 출력으로 변환하여 표시한다고 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">i_min</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">i_max</span> <span class="o">=</span> <span class="mf">100.0</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">i_max</span> <span class="o">/</span> <span class="n">i_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1.02</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([(</span><span class="n">i</span> <span class="o">/</span> <span class="mf">999.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">i_min</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.02</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_1_files/graphics_note_1_4_0.png" alt="png" /></p>
+
+<p>이상적으로는 대강 위와 같은 매핑으로 출력한다고 한다.(가로: normalized pixel value, 세로: intensity)</p>
+
+<p>그렇기 때문에 만약 픽셀에 저장한 값이 물리적인 빛의 intensity라면,</p>
+
+<p>모니터에 해당 intensity가 표시되도록 보정해줄 필요가 있다.</p>
+
+<p>이를 gamma correction이라고 한다.</p>
+
+<h2 id="dynamic-range와-환경">Dynamic range와 환경</h2>
+
+<p>dynamic range의 정의가 \(I_{max} \over I_{min}\) 이기 때문에, 외부의 빛이 모니터로부터 반사하는 환경에서 dynamic range를 측정하게 되면</p>
+
+\[{I_{max} + k} \over {I_{min} + k}\]
+
+<p>와 같은 값이 측정값이 된다. (\(k\) 는 반사하는 빛의 세기)</p>
+
+<p>따라서 dynamic range는 측정하는 환경의 조명 상태에 따라 변하게 된다.</p>
+
+<p>영화관에서 외부의 빛을 최대한 줄여주는 이유는 이 때문이다.</p>
+:ET

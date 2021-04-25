@@ -1,0 +1,455 @@
+I"�A<h2 id="선-그리기">선 그리기</h2>
+
+<p>우선 공간상에 선을 그려보자.</p>
+
+<p>처음으로 사용할 알고리즘은 선으로부터 0.5 거리 이내의 점들을 하얗게 칠하는 방법이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">draw_line</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">p0</span>
+    <span class="n">d</span> <span class="o">/=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="mf">499.0</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">p1</span>
+        <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">rint</span><span class="p">(</span><span class="n">p</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">pi</span> <span class="o">-</span> <span class="n">p0</span><span class="p">)</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dist</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">img</span><span class="p">[</span><span class="n">pi</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">41</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="mf">40.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">draw_line</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span>
+    
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c618e69e50&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_2_1.png" alt="png" /></p>
+
+<p>위의 사진을 보면 알겠지만, 선으로 부터 0.5 거리 이하인 점들을 하얗게 칠하는 랜더링 방법은</p>
+
+<p>상당히 예쁘지 못한 결과를 만들어낸다.</p>
+
+<p>다음은 Bresenham line algorithm (Midpoint line algorithm)이라는 알고리즘으로 랜더링을 해본다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">draw_line</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">p0</span>
+    <span class="n">is_hor</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">rint</span><span class="p">(</span><span class="n">p0</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">tp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">rint</span><span class="p">(</span><span class="n">p1</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">si</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_hor</span> <span class="k">else</span> <span class="n">sp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ti</span> <span class="o">=</span> <span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_hor</span> <span class="k">else</span> <span class="n">tp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">is_hor</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="n">sx</span> <span class="o">=</span> <span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_hor</span> <span class="k">else</span> <span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">sy</span> <span class="o">=</span> <span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_hor</span> <span class="k">else</span> <span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_hor</span> <span class="k">else</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">si</span><span class="p">,</span> <span class="n">ti</span> <span class="o">+</span> <span class="n">di</span><span class="p">,</span> <span class="n">di</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">sx</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span> <span class="o">+</span> <span class="n">sy</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">rint</span><span class="p">(</span><span class="n">y</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_hor</span><span class="p">:</span>
+            <span class="n">img</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">41</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="mf">40.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">draw_line</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span>
+    
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c6192d4070&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_4_1.png" alt="png" /></p>
+
+<p>제법 괜찮은 결과가 나온다. 하지만 곱셈과 rounding 연산은 느리다고 한다.</p>
+
+<p>좀 더 최적화가 가능하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">get_line_pixels</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">p0</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">np</span><span class="p">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="n">m</span> <span class="o">@</span> <span class="n">p0</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">m</span> <span class="o">@</span> <span class="n">p1</span>
+    <span class="c1"># 로컬 스페이스에선 기울기가 0 이상, 1 이하임이 보장된다.
+</span>    
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">p0</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c1"># 최근에 찍힌 점의 위치
+</span>    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">rint</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="n">sx</span> <span class="o">-</span> <span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># 최근에 찍힌 점과 실제 line 값 사이의 offset
+</span>    <span class="n">d</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="p">(</span><span class="n">sx</span> <span class="o">-</span> <span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span>
+    
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sx</span><span class="p">,</span> <span class="n">tx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">-=</span> <span class="mf">1.0</span>
+            <span class="n">y</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">d</span> <span class="o">+=</span> <span class="n">r</span>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">draw_line</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">get_line_pixels</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
+        <span class="n">img</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">41</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="mf">40.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">draw_line</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span>
+    
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c6192f6f70&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_6_1.png" alt="png" /></p>
+
+<h2 id="삼각형-그리기-rasterization">삼각형 그리기 (rasterization)</h2>
+
+<p>앞서 만든 line rendering 알고리즘을 이용해서 rasterization을 수행할 수 있다.</p>
+
+<p>삼각형에서 세로로 가장 긴 edge를 선택하고, 해당 edge를 따라가며 좌 또는 우로 pixel을 탐색하는 것이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+             <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+             <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]])</span>
+
+<span class="k">def</span> <span class="nf">get_triangle_pixels</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="n">min_y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">Inf</span>
+    <span class="n">max_y</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">Inf</span>
+    <span class="n">min_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">max_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">rem_i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_y</span><span class="p">:</span>
+            <span class="n">min_y</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">min_i</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_y</span><span class="p">:</span>
+            <span class="n">max_y</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">max_i</span> <span class="o">=</span> <span class="n">i</span>
+            
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">min_i</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">max_i</span><span class="p">:</span>
+            <span class="n">rem_i</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">break</span>
+    
+    <span class="n">dp0</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">max_i</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">min_i</span><span class="p">]</span>
+    <span class="n">dp1</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">rem_i</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">min_i</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="n">cross</span><span class="p">(</span><span class="n">dp1</span><span class="p">,</span> <span class="n">dp0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    
+    <span class="n">fe</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">rem_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">fsy</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">min_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">fsx</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">min_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="n">dp1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">dp1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">dp1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.000001</span> <span class="k">else</span> <span class="n">np</span><span class="p">.</span><span class="n">Inf</span>
+    
+    <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">get_line_pixels</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">min_i</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">max_i</span><span class="p">]):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">pixel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pixel</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fr</span> <span class="o">==</span> <span class="n">np</span><span class="p">.</span><span class="n">PINF</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">fe</span><span class="p">:</span>
+            <span class="n">dp</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">max_i</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">rem_i</span><span class="p">]</span>
+            <span class="n">fe</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">max_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">fsy</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">rem_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">fsx</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">rem_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">fr</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">dp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.000001</span> <span class="k">else</span> <span class="n">np</span><span class="p">.</span><span class="n">Inf</span>
+        
+        <span class="k">if</span> <span class="n">fr</span> <span class="o">==</span> <span class="n">np</span><span class="p">.</span><span class="n">Inf</span><span class="p">:</span>
+            <span class="k">break</span>
+        
+        <span class="n">fx</span> <span class="o">=</span> <span class="n">fr</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">fsy</span><span class="p">)</span> <span class="o">+</span> <span class="n">fsx</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">fx</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">dx</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">fx</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+            <span class="n">x</span> <span class="o">+=</span> <span class="n">dx</span>
+
+<span class="k">def</span> <span class="nf">draw_triangle</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">get_triangle_pixels</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+        <span class="n">img</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c61968c160&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_8_1.png" alt="png" /></p>
+
+<h2 id="vertex-parameter-interpolation">Vertex Parameter Interpolation</h2>
+
+<p>버텍스 파라미터(색, uv 등)를 interpolation 해보자.</p>
+
+<p>우선은 단일 float 파라미터를 interpolation 해볼 것이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">draw_triangle</span><span class="p">(</span><span class="n">pos</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">@</span> <span class="n">q</span>
+    
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">get_triangle_pixels</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">img</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">val</span>
+
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c6196cef40&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_10_1.png" alt="png" /></p>
+
+<p>단일 실수에 대해서는 위와 같은 공식으로 각 점의 값을 결정할 수 있지만,</p>
+
+<p>parameter 수가 많은 경우에는 barycentric coordinate을 이용하면 더 효율적으로 interpolation 이 가능하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">param</span>
+
+
+<span class="k">def</span> <span class="nf">draw_triangle</span><span class="p">(</span><span class="n">pos</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fragment_function</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">@</span> <span class="n">q</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">T</span>
+    <span class="n">b0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">get_triangle_pixels</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">c</span> <span class="o">@</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">b0</span>
+        <span class="n">img</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">fragment_function</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">b</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                                        <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]),</span> <span class="n">f1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c6197303a0&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_12_1.png" alt="png" /></p>
+
+<h2 id="perspective-projection">Perspective projection</h2>
+
+<p>랜더링 파이프라인에서 원근감을 주기 위해, 다음과 같은 projection matrix 를 사용한다.</p>
+
+\[M_p = \begin{pmatrix}
+n &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; n &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; n + f &amp; -nf \\
+0 &amp; 0 &amp; 1 &amp; 0 \end{pmatrix}\]
+
+<p>이 행렬은 homogeneous coordinate 의 w coordinate 로 나머지 coordinate 을 나누는 operation 이 이후에</p>
+
+<p>존재한다는 전제하에 원근 효과를 만들어낸다.</p>
+
+<p>perspective 행렬을 적용한 이후,</p>
+
+<p>\(\left[ l, r \right], \left[ b, t \right], \left[ n, f \right]\) 범위의 영역을</p>
+
+<p>normalized device coordinate 으로 옮기는 orthographic projection 을 곱하면,</p>
+
+<p>perspective projection (공간의 형태는 꼭대기가 잘려나간 피라미드)가 완성된다.</p>
+
+\[M_{ortho} = \begin{pmatrix}
+2 \over {r - l} &amp; 0 &amp; 0 &amp; -{ {r + l} \over {r - l} } \\
+0 &amp; 2 \over {t - b} &amp; 0 &amp; -{ {t + b} \over {t - b} } \\
+0 &amp; 0 &amp; 2 \over {n - f} &amp; -{ {n + f} \over {n - f} } \\
+0 &amp; 0 &amp; 0 &amp; 1 \end{pmatrix}\]
+
+\[M_{per} = M_{ortho} * M_{p}\]
+
+<p>이를 코드로 구현하고, 체스판을 원근감있게 랜더링해보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cam_pos</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">cam_target</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">cam_up</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">cam_z</span> <span class="o">=</span> <span class="n">cam_pos</span> <span class="o">-</span> <span class="n">cam_target</span>
+<span class="n">cam_z</span> <span class="o">/=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cam_z</span><span class="p">)</span>
+<span class="n">cam_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">cross</span><span class="p">(</span><span class="n">cam_up</span><span class="p">,</span> <span class="n">cam_z</span><span class="p">)</span>
+<span class="n">cam_x</span> <span class="o">/=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">cam_x</span><span class="p">)</span>
+<span class="n">cam_y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">cross</span><span class="p">(</span><span class="n">cam_z</span><span class="p">,</span> <span class="n">cam_x</span><span class="p">)</span>
+<span class="n">m_cam</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">m_cam</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">cam_x</span>
+<span class="n">m_cam</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">cam_y</span>
+<span class="n">m_cam</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">cam_z</span>
+<span class="n">m_cam</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">cam_pos</span>
+<span class="n">m_cam</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">m_cam</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">m_cam</span><span class="p">)</span>
+
+<span class="n">near</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+<span class="n">far</span> <span class="o">=</span> <span class="o">-</span><span class="mf">100.0</span>
+
+<span class="n">m_p</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">m_p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">near</span>
+<span class="n">m_p</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">near</span>
+<span class="n">m_p</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">near</span> <span class="o">+</span> <span class="n">far</span>
+<span class="n">m_p</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">near</span> <span class="o">*</span> <span class="n">far</span>
+<span class="n">m_p</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">cam_t</span> <span class="o">=</span> <span class="o">-</span><span class="n">near</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">47.0</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">cam_b</span> <span class="o">=</span> <span class="o">-</span><span class="n">cam_t</span>
+<span class="n">cam_l</span> <span class="o">=</span> <span class="n">cam_b</span>
+<span class="n">cam_r</span> <span class="o">=</span> <span class="n">cam_t</span>
+<span class="n">cam_n</span> <span class="o">=</span> <span class="n">near</span>
+<span class="n">cam_f</span> <span class="o">=</span> <span class="n">far</span>
+<span class="n">m_ortho</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">cam_r</span> <span class="o">-</span> <span class="n">cam_l</span><span class="p">)</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">cam_r</span> <span class="o">+</span> <span class="n">cam_l</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">cam_r</span> <span class="o">-</span> <span class="n">cam_l</span><span class="p">)</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">cam_t</span> <span class="o">-</span> <span class="n">cam_b</span><span class="p">)</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">cam_t</span> <span class="o">+</span> <span class="n">cam_b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">cam_t</span> <span class="o">-</span> <span class="n">cam_b</span><span class="p">)</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">cam_n</span> <span class="o">-</span> <span class="n">cam_f</span><span class="p">)</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">cam_n</span> <span class="o">+</span> <span class="n">cam_f</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">cam_n</span> <span class="o">-</span> <span class="n">cam_f</span><span class="p">)</span>
+<span class="n">m_ortho</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+<span class="n">m_vp</span> <span class="o">=</span> <span class="n">m_ortho</span> <span class="o">@</span> <span class="n">m_p</span> <span class="o">@</span> <span class="n">m_cam</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+    <span class="n">ndc</span> <span class="o">=</span> <span class="n">m_vp</span> <span class="o">@</span> <span class="n">pos</span><span class="p">.</span><span class="n">T</span>
+    <span class="n">ndc</span> <span class="o">=</span> <span class="n">ndc</span><span class="p">.</span><span class="n">T</span>
+    <span class="n">ndc_w</span> <span class="o">=</span> <span class="n">ndc</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,)</span>
+    <span class="n">ndc</span> <span class="o">=</span> <span class="p">(</span><span class="n">ndc</span> <span class="o">/</span> <span class="n">ndc_w</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">]).</span><span class="n">T</span>
+    <span class="k">return</span> <span class="p">((</span><span class="n">ndc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,:]</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="mi">256</span><span class="p">).</span><span class="n">T</span><span class="p">,</span> <span class="n">ndc_w</span>
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">floor</span><span class="p">(</span><span class="n">param</span> <span class="o">/</span> <span class="mf">0.1</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">int32</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,))</span> <span class="o">*</span> <span class="n">color</span>
+
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">t1</span><span class="p">,</span> <span class="n">z1</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">t2</span><span class="p">,</span> <span class="n">z2</span> <span class="o">=</span> <span class="n">project</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]),</span> <span class="n">f1</span><span class="p">)</span>
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]),</span> <span class="n">f1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c61a0650d0&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_14_1.png" alt="png" /></p>
+
+<h2 id="perspectively-correct-interpolation">Perspectively correct interpolation</h2>
+
+<p>위 코드의 결과를 보면 뭔가 맞지만, 뭔가가 틀리다는 점을 알 수 있다.</p>
+
+<p>우리가 원하는 결과물은 원근감이 잘 적용된 체스판이지만,</p>
+
+<p>위의 체스판은 그리드가 중간에 꺾여있다.</p>
+
+<p>위와 같은 결과가 나온 이유는 world 상에서 linear 한 parameter 가 projection 을 거친 이후에는</p>
+
+<p>더 이상 linear 하지 않기 때문이다.</p>
+
+<p>자세한 내용은 다음의 문서를 참고하자.</p>
+
+<p>https://www.comp.nus.edu.sg/~lowkl/publications/lowk_persp_interp_techrep.pdf</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">draw_triangle</span><span class="p">(</span><span class="n">pos</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fragment_function</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linalg</span><span class="p">.</span><span class="n">inv</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">@</span> <span class="n">q</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">T</span>
+    <span class="n">b0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">inv_z</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">z</span>
+    
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">get_triangle_pixels</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">c</span> <span class="o">@</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="n">b0</span>
+        <span class="n">b_z</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">inv_z</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">inv_z</span> <span class="o">*</span> <span class="n">b_z</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">scale</span>
+        <span class="n">img</span><span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">fragment_function</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">b</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]),</span> <span class="n">f1</span><span class="p">)</span>
+<span class="n">draw_triangle</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">z2</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]]),</span> <span class="n">f1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.image.AxesImage at 0x1c61a392c40&gt;
+</code></pre></div></div>
+
+<p><img src="/assets/img/graphics_note_2_files/graphics_note_2_16_1.png" alt="png" /></p>
+
+:ET

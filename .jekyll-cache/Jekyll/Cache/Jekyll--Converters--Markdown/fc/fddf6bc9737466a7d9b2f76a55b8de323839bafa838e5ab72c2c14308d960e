@@ -1,0 +1,137 @@
+I"�<h2 id="jupyter-notebook-을-post-화-하기">jupyter notebook 을 post 화 하기</h2>
+
+<ol>
+  <li>anaconda prompt 를 실행.</li>
+  <li>directory 를 레포 root로 이동</li>
+  <li>new_post.sh notebook_name.ipynb</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[0. 0. 0.]
+ [0. 0. 0.]
+ [0. 0. 0.]]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"http://vincentarelbundock.github.io/Rdatasets/csv/datasets/crimtab.csv"</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(924, 4)
+</code></pre></div></div>
+
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>Var1</th>
+      <th>Var2</th>
+      <th>Freq</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>9.4</td>
+      <td>142.24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>9.5</td>
+      <td>142.24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>9.6</td>
+      <td>142.24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>9.7</td>
+      <td>142.24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>9.8</td>
+      <td>142.24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>919</th>
+      <td>920</td>
+      <td>13.1</td>
+      <td>195.58</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>920</th>
+      <td>921</td>
+      <td>13.2</td>
+      <td>195.58</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>921</th>
+      <td>922</td>
+      <td>13.3</td>
+      <td>195.58</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>922</th>
+      <td>923</td>
+      <td>13.4</td>
+      <td>195.58</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>923</th>
+      <td>924</td>
+      <td>13.5</td>
+      <td>195.58</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>924 rows × 4 columns</p>
+</div>
+
+:ET
