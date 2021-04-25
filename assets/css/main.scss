@@ -165,7 +165,7 @@ img {
     padding: 0.5rem;
 
     @include breakpoint(medium) {
-        margin-left: 22rem;
+        margin-left: 10rem;
     }
 }
 
@@ -298,7 +298,7 @@ img {
     }
 
     @include breakpoint(medium) {
-        width: 18rem;
+        width: 10rem;
         height: 100%;
         min-height: 100%;
     }
@@ -310,7 +310,7 @@ img {
     text-align: center;
 
     @include breakpoint(medium) {
-        margin-top: 8rem;
+        margin-top: 1.5rem;
         width: 100%;
     }
 
@@ -504,8 +504,8 @@ img {
     color: var(--post_text);
 
     @include breakpoint(medium) {
-        max-width: 33rem;
-        margin-top: 5rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
     }
 
     @include mobile-only {
