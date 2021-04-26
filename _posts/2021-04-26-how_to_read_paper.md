@@ -1,10 +1,8 @@
-```python
 ---
 title: 논문을 읽는 방법
 categories: [study]
 comments: true
 ---
-```
 
 ## 논문을 읽는 방법
 
