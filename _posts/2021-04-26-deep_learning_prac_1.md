@@ -1,5 +1,5 @@
 ---
-title: 딥러닝 공부 : 각종 링크 저장용
+title: 딥러닝 공부 1. 각종 링크 저장용
 categories: [study]
 comments: true
 ---
