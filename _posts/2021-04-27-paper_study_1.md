@@ -58,7 +58,7 @@ motion prediction 문제를 seq2seq 으로 해결하고자 하는 것이다.
 
 motion prediction 알고리즘들은 generation 이 오랫동안 지속됨에 따라 error 가 누적되는 특징을 보인다.
 
-error 가 누적됨에 따라 학습되지 않은 region 에 들어가게 될 가능성이 크기 때문이다.
+error 가 누적됨에 따라 학습되지 않은 region 에 들어가게 될 가능성이 크기 때문에 성능이 점차 하락하게 된다.
 
 이를 해소하기 위해 학습과정에서 noise 를 집어넣게 되는데, noise 를 넣게 되면 어느 정도 error 에 대해서
 
