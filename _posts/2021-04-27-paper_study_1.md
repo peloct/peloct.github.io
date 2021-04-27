@@ -8,7 +8,7 @@ comments: true
 
 본 논문에서는 motion prediction 기술에 타겟 프레임을 지정하는 것(conditioning)을 통해서 transition generation 을 달성하고자 한다.
 
-우선 타겟 프레임까지 남은 시간 (time to arival, 이하 tta)을 네트워크에 넘겨주어야 하는 이유는 이 정보가 없을 때,
+우선 타겟 프레임까지 남은 시간 (time to arrival, 이하 tta)을 네트워크에 넘겨주어야 하는 이유는 이 정보가 없을 때,
 
 모션이 satalling 하거나 teleporting 하는 경향을 보이기 때문이다.
 
